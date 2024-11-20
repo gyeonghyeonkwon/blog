@@ -1,5 +1,7 @@
 package com.ll.blog.domain.member.service;
 
+import com.ll.blog.domain.member.dto.MemberJoinRequest;
+import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,4 +14,13 @@ public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
 
+    public void signUp(final MemberJoinRequest memberJoinRequest) {
+        if (memberRepository.existsByLoginId(memberJoinRequest.getLoginId())) {
+            throw new IllegalArgumentException("아이디가 존재합니다.");
+        }
+        if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
+            throw new RuntimeException("비밀번호가 일치하지않습니다,");
+        }
+         memberRepository.save(memberJoinRequest.toEntity());
+    }
 }
