@@ -6,59 +6,65 @@
             <form th:action="@{/member/signup}" th:object="${memberJoinRequest}" th:method="post">
 
                 <!-- 아이디 -->
-                <div class="form-control mb-3">
-                    <label class="label" for="loginId">
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
                         <span class="label-text">아이디</span>
-                    </label>
+                    </div>
+                    <div style="display: flex">
                     <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
-                           class="input input-bordered" required>
-                </div>
+                           class="input input-bordered w-full max-w-xs" required>
+                    <button class="btn btn-primary">중복검사</button>
+                    </div>
+                </label>
 
                 <!-- 이름 -->
-                <div class="form-control mb-3">
-                    <label class="label" for="name">
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
                         <span class="label-text">이름</span>
-                    </label>
-                    <input type="text" id="name" th:field="*{name}" placeholder="이름을 입력하세요" class="input input-bordered"
+                    </div>
+                    <input type="text" id="name" th:field="*{name}" placeholder="이름을 입력하세요" class="input input-bordered w-full max-w-xs"
                            required>
-                </div>
+                </label>
 
                 <!-- 핸드폰번호 -->
-                <div class="form-control mb-3">
-                    <label class="label" for="phoneNumber">
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
                         <span class="label-text">핸드폰번호</span>
-                    </label>
+                    </div>
                     <input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="핸드폰번호를 입력하세요"
-                           class="input input-bordered" required>
-                </div>
+                           class="input input-bordered w-full max-w-xs" required>
+                </label>
 
                 <!-- 이메일 -->
-                <div class="form-control mb-3">
-                    <label class="label" for="email">
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
                         <span class="label-text">이메일</span>
-                    </label>
+                    </div>
+                    <div style="display: flex">
                     <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"
-                           class="input input-bordered" required>
-                </div>
+                           class="input input-bordered w-full max-w-xs" required>
+                        <button class="btn btn-primary">중복검사</button>
+                    </div>
+                </label>
 
                 <!-- 비밀번호 -->
-                <div class="form-control mb-3">
-                    <label class="label" for="password">
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
                         <span class="label-text">비밀번호</span>
-                    </label>
+                    </div>
                     <input type="password" id="password" th:field="*{password}" placeholder="비밀번호를 입력하세요"
-                           class="input input-bordered" required>
-                </div>
+                           class="input input-bordered w-full max-w-xs" required>
+                </label>
 
                 <!-- 비밀번호 확인 -->
-                <div class="form-control mb-3">
-                    <label class="label" for="passwordConfirm">
+                <label class="form-control w-full max-w-xs">
+                    <div class="label">
                         <span class="label-text">비밀번호 확인</span>
-                    </label>
+                    </div>
                     <input type="password" id="passwordConfirm" th:field="*{passwordConfirm}"
-                           placeholder="비밀번호를 다시 입력하세요" class="input input-bordered" required>
-                    <span id="message"></span>
-                </div>
+                           placeholder="비밀번호를 다시 입력하세요" class="input input-bordered w-full max-w-xs" required>
+                    <p id="message"></p>
+                </label>
 
                 <!-- 회원가입 버튼 -->
                 <div class="form-control mt-6">

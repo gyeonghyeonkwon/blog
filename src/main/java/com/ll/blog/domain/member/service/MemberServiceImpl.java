@@ -14,16 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void signUp(final MemberJoinRequest memberJoinRequest) {
-        if (memberRepository.existsByLoginId(memberJoinRequest.getLoginId())) {
+        if (isCheckLoginId(memberJoinRequest.getLoginId())) {
             throw new IllegalArgumentException("아이디가 존재합니다.");
         }
         if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
             throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
         }
          memberRepository.save(memberJoinRequest.toEntity());
+    }
+    public boolean isCheckLoginId(final String loginId) {
+        return memberRepository.existsByLoginId(loginId);
     }
 }

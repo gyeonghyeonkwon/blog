@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 
 public interface MemberService {
     void signUp(final MemberJoinRequest memberJoinRequest);
+    boolean isCheckLoginId(final String loginId);
 }
