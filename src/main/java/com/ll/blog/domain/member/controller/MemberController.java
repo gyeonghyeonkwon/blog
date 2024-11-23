@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,6 +30,12 @@ public class MemberController {
     public String signUp(@Valid MemberJoinRequest memberJoinRequest) {
         memberService.signUp(memberJoinRequest);
         return "redirect:/member/login";
+    }
+    @GetMapping("/loginIdCheck")
+    @ResponseBody
+    public boolean loginIdCheck(@RequestParam("loginId") String loginId) {
+        boolean loginIdCheck = memberService.isCheckLoginId(loginId);
+        return loginIdCheck;
     }
 
     @GetMapping("/login")

@@ -13,8 +13,9 @@
                     <div style="display: flex">
                     <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
                            class="input input-bordered w-full max-w-xs" required>
-                    <button class="btn btn-primary">중복검사</button>
+                    <button class="btn btn-active" onclick="loginIdCheck()">중복검사</button>
                     </div>
+                    <p id="idCheckMessage"></p>
                 </label>
 
                 <!-- 이름 -->
@@ -43,7 +44,7 @@
                     <div style="display: flex">
                     <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"
                            class="input input-bordered w-full max-w-xs" required>
-                        <button class="btn btn-primary">중복검사</button>
+                        <button class="btn btn-active">중복검사</button>
                     </div>
                 </label>
 
@@ -102,6 +103,36 @@
             }
         });
         // 여기까지 비밀번호 체크
+
+        function loginIdCheck() {
+            const loginId = $('#loginId').val();
+            if (loginId === "") {
+                $('#idCheckMessage').text('아이디를 입력해주세요.');
+                document.getElementById("idCheckMessage").style.color = 'red';
+                return;
+            }
+            $.ajax({
+                type: 'GET',
+                url: "/member/loginIdCheck", //Controller 주소
+                data: {loginId:loginId},
+                success: function (data) {
+                    console.log(data);
+                    if(data){
+                        $("#idCheckMessage").text('이미 사용중인 아이디입니다');
+                        document.getElementById("idCheckMessage").style.color = 'red';
+                        submitButton.disabled = true;
+                    }else{
+                        document.getElementById("idCheckMessage").style.color = 'green';
+                        $("#idCheckMessage").text('사용 가능한 아이디입니다');
+                        submitButton.disabled = false;
+                    }
+
+                },
+                error: function () {
+                    alert("API 통신불가");
+                }
+            });
+        }
     </script>
     </th:block>
 </div>
