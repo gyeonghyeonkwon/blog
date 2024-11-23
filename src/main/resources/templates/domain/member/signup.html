@@ -1,5 +1,96 @@
 <html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<div layout:fragment="content">
-<h2>Test</h2>
+<div layout:fragment="content" class="flex justify-center items-center min-h-screen bg-gray-100">
+    <div class="card w-96 bg-white shadow-xl">
+        <div class="card-body">
+            <h2 class="text-center text-2xl font-bold mb-4">회원가입</h2>
+            <form th:action="@{/member/signup}" th:object="${memberJoinRequest}" th:method="post">
+                <!-- 이메일 -->
+                <div class="form-control mb-3">
+                    <label class="label" for="email">
+                        <span class="label-text">이메일</span>
+                    </label>
+                    <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"
+                           class="input input-bordered" required>
+                </div>
+
+                <!-- 이름 -->
+                <div class="form-control mb-3">
+                    <label class="label" for="name">
+                        <span class="label-text">이름</span>
+                    </label>
+                    <input type="text" id="name" th:field="*{name}" placeholder="이름을 입력하세요" class="input input-bordered"
+                           required>
+                </div>
+
+                <!-- 아이디 -->
+                <div class="form-control mb-3">
+                    <label class="label" for="loginId">
+                        <span class="label-text">아이디</span>
+                    </label>
+                    <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
+                           class="input input-bordered" required>
+                </div>
+
+                <!-- 핸드폰번호 -->
+                <div class="form-control mb-3">
+                    <label class="label" for="phoneNumber">
+                        <span class="label-text">핸드폰번호</span>
+                    </label>
+                    <input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="핸드폰번호를 입력하세요"
+                           class="input input-bordered" required>
+                </div>
+
+                <!-- 비밀번호 -->
+                <div class="form-control mb-3">
+                    <label class="label" for="password">
+                        <span class="label-text">비밀번호</span>
+                    </label>
+                    <input type="password" id="password" th:field="*{password}" placeholder="비밀번호를 입력하세요"
+                           class="input input-bordered" required>
+                </div>
+
+                <!-- 비밀번호 확인 -->
+                <div class="form-control mb-3">
+                    <label class="label" for="passwordConfirm">
+                        <span class="label-text">비밀번호 확인</span>
+                    </label>
+                    <input type="password" id="passwordConfirm" th:field="*{passwordConfirm}"
+                           placeholder="비밀번호를 다시 입력하세요" class="input input-bordered" required>
+                    <span id="message"></span>
+                </div>
+
+                <!-- 회원가입 버튼 -->
+                <div class="form-control mt-6">
+                    <button type="submit" id="submitButton" class="btn btn-primary">회원가입</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <th:block layout:fragment="script">
+    <script th:inline="javascript">
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('passwordConfirm');
+        const message = document.getElementById('message');
+        const submitButton = document.getElementById('submitButton');
+
+        confirmPassword.addEventListener('input', () => {
+            if (confirmPassword.value === "") {
+                message.textContent = "";
+                return;
+            }
+            if (confirmPassword.value === password.value) {
+                message.textContent = "비밀번호가 일치합니다.";
+                message.style.color = "green";
+                submitButton.disabled = false;
+
+            } else {
+                message.textContent = "비밀번호가 일치하지 않습니다.";
+                message.style.color = "red";
+                submitButton.disabled = true;
+            }
+        });
+    </script>
+    </th:block>
 </div>
 </html>

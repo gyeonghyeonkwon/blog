@@ -1,20 +1,23 @@
 package com.ll.blog.domain.member.dto;
 
 import com.ll.blog.domain.member.entity.Member;
+import com.ll.blog.domain.member.entity.MemberRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MemberJoinRequest {
+
     @NotBlank(message = "본명을 입력해주세요.")
     private String name;
 
@@ -39,12 +42,14 @@ public class MemberJoinRequest {
     private String email;
 
     public Member toEntity() {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return Member.builder()
+                .email(this.email)
                 .name(this.name)
                 .loginId(this.loginId)
-                .password(this.password)
+                .password(passwordEncoder.encode(this.password))
                 .phoneNumber(this.phoneNumber)
-                .email(this.email)
+                .role(MemberRole.MEMBER)
                 .build();
     }
 }

@@ -4,6 +4,7 @@ import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,13 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void signUp(final MemberJoinRequest memberJoinRequest) {
         if (memberRepository.existsByLoginId(memberJoinRequest.getLoginId())) {
             throw new IllegalArgumentException("아이디가 존재합니다.");
         }
         if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
-            throw new RuntimeException("비밀번호가 일치하지않습니다,");
+            throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
         }
          memberRepository.save(memberJoinRequest.toEntity());
     }

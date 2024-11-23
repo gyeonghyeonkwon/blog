@@ -39,7 +39,7 @@ class MemberServiceTest {
                .email("kyanghyang12@naver.com")
                .loginId("kyanghyang12")
                .build();
-        when(memberRepository.existsByLoginId(memberJoinRequest.getLoginId())).thenReturn(false);
+        when(memberRepository.existsByLoginId(memberJoinRequest.getLoginId())).thenReturn(false); //로그인아이디 중복확인
         memberService.signUp(memberJoinRequest);
         verify(memberRepository , times(1)).save(any());
     }

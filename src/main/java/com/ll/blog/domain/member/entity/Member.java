@@ -17,8 +17,10 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
+    @Column(length = 45, nullable = false)
     private String name;
 
+    @Column(unique = true)
     private String loginId;
 
     private String password;
@@ -26,8 +28,9 @@ public class Member extends BaseEntity {
     private String phoneNumber;
 
     @Email
+    @Column(unique = true)
     private String email;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private MemberRole role;
 }
