@@ -104,20 +104,27 @@
         });
         // 여기까지 비밀번호 체크
 
+        // 아이디중복확인 시작
         function loginIdCheck() {
-            const loginId = $('#loginId').val();
+            const csrfToken = $('meta[name="_csrf"]').attr('content'); // CSRF 토큰 값
+            const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); // CSRF 헤더 이름
+            const loginId = $('#loginId').val().trim();
             if (loginId === "") {
                 $('#idCheckMessage').text('아이디를 입력해주세요.');
                 document.getElementById("idCheckMessage").style.color = 'red';
                 return;
             }
             $.ajax({
-                type: 'GET',
+                type: 'POST',
                 url: "/member/loginIdCheck", //Controller 주소
-                data: {loginId:loginId},
-                success: function (data) {
-                    console.log(data);
-                    if(data){
+                contentType: 'application/json', // JSON 데이터로 전송
+                data: JSON.stringify({loginId : loginId }),
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken); // CSRF 헤더 설정
+                },
+                success: function (response) {
+                    console.log(response);
+                    if(response.availability){
                         $("#idCheckMessage").text('이미 사용중인 아이디입니다');
                         document.getElementById("idCheckMessage").style.color = 'red';
                         submitButton.disabled = true;
@@ -126,12 +133,12 @@
                         $("#idCheckMessage").text('사용 가능한 아이디입니다');
                         submitButton.disabled = false;
                     }
-
                 },
                 error: function () {
-                    alert("API 통신불가");
+                    alert("API 요청실패");
                 }
             });
+            // 아이디중복확인 끝
         }
     </script>
     </th:block>

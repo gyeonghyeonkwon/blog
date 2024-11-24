@@ -24,6 +24,7 @@ public class SecurityConfig {
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
         ;
+//                .csrf(csrf->csrf.disable()); //csrf 비활성화 (테스트할때 사용)
         return http.build();
     }
     @Bean
