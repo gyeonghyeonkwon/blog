@@ -23,17 +23,8 @@
                     <div class="label">
                         <span class="label-text">이름</span>
                     </div>
-                    <input type="text" id="name" th:field="*{name}" placeholder="이름을 입력하세요" class="input input-bordered w-full max-w-xs"
+                    <input type="text" id="realName" th:field="*{realName}" placeholder="이름을 입력하세요" class="input input-bordered w-full max-w-xs"
                            required>
-                </label>
-
-                <!-- 핸드폰번호 -->
-                <label class="form-control w-full max-w-xs">
-                    <div class="label">
-                        <span class="label-text">핸드폰번호</span>
-                    </div>
-                    <input type="text" id="phoneNumber" th:field="*{phoneNumber}" placeholder="핸드폰번호를 입력하세요"
-                           class="input input-bordered w-full max-w-xs" required>
                 </label>
 
                 <!-- 이메일 -->
@@ -44,7 +35,7 @@
                     <div style="display: flex">
                     <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"
                            class="input input-bordered w-full max-w-xs mr-1" required>
-                        <button class="btn btn-active">중복검사</button>
+                        <button class="btn btn-active">인증번호전송</button>
                     </div>
                 </label>
 
