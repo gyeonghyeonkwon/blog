@@ -10,9 +10,9 @@
                     <div class="label">
                         <span class="label-text">아이디</span>
                     </div>
-                    <div style="display: flex">
+                    <div class="flex">
                     <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
-                           class="input input-bordered w-full max-w-xs" required>
+                           class="input input-bordered w-full max-w-xs mr-1" required>
                     <button class="btn btn-active" onclick="loginIdCheck()">중복검사</button>
                     </div>
                     <p id="idCheckMessage"></p>
@@ -43,7 +43,7 @@
                     </div>
                     <div style="display: flex">
                     <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"
-                           class="input input-bordered w-full max-w-xs" required>
+                           class="input input-bordered w-full max-w-xs mr-1" required>
                         <button class="btn btn-active">중복검사</button>
                     </div>
                 </label>

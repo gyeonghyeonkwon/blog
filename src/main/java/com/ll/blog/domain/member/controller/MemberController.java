@@ -38,13 +38,6 @@ public class MemberController {
         memberService.signUp(memberJoinRequest);
         return "redirect:/member/login";
     }
-    @PostMapping("/loginIdCheck")
-    @ResponseBody
-    public ResponseEntity loginIdCheck(@RequestBody JoinLoginIdCheckRequest joinLoginIdCheckRequest) {
-        boolean isLoginIdCheck =  memberService.isCheckLoginId(joinLoginIdCheckRequest.getLoginId());
-        JoinLoginIdCheckResponse joinLoginIdCheckResponse = new JoinLoginIdCheckResponse(joinLoginIdCheckRequest.getLoginId(), isLoginIdCheck);
-        return new ResponseEntity<>(joinLoginIdCheckResponse, HttpStatus.OK);
-    }
 
     @GetMapping("/login")
     public String login() {
