@@ -18,13 +18,13 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-                .csrf((csrf) -> csrf
-                .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
-                .headers((headers) -> headers
-                        .addHeaderWriter(new XFrameOptionsHeaderWriter(
-                                XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
-        ;
-//                .csrf(csrf->csrf.disable()); //csrf 비활성화 (테스트할때 사용)
+//                .csrf((csrf) -> csrf
+//                .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
+//                .headers((headers) -> headers
+//                        .addHeaderWriter(new XFrameOptionsHeaderWriter(
+//                                XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+//        ;
+                .csrf(csrf->csrf.disable()); //csrf 비활성화 (테스트할때 사용)
         return http.build();
     }
     @Bean

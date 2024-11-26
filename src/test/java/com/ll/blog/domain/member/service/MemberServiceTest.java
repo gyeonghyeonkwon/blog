@@ -33,7 +33,7 @@ class MemberServiceTest {
     void 회원가입테스트() {
 
         MemberJoinRequest memberJoinRequest = MemberJoinRequest.builder()
-               .name("테스트유저")
+               .realName("테스트유저")
                .password("1234")
                .passwordConfirm("1234")
                .email("kyanghyang12@naver.com")
