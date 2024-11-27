@@ -33,7 +33,7 @@ public class EmailServiceImpl implements EmailService {
                         "<br>" +
                         "인증번호를 제대로 입력해주세요"; //이메일 내용 삽입
         mailSend(setFrom, toMail, title, content);
-        return Integer.toString(randomValue);
+        return Integer.toString(randomValue); //인증번호 6자리
     }
 
     //이메일을 전송합니다.

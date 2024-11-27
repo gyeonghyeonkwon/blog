@@ -33,7 +33,7 @@
                         <span class="label-text">이메일</span>
                     </div>
                     <div style="display: flex">
-                    <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"
+                        <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"
                            class="input input-bordered w-full max-w-xs mr-1" required>
                         <button class="btn btn-active">인증번호전송</button>
                     </div>
@@ -107,7 +107,7 @@
             }
             $.ajax({
                 type: 'POST',
-                url: "/member/loginIdCheck", //Controller 주소
+                url: "/api/member/loginIdCheck", //Controller 주소
                 contentType: 'application/json', // JSON 데이터로 전송
                 data: JSON.stringify({loginId : loginId }),
                 beforeSend: function (xhr) {
