@@ -31,10 +31,14 @@
                     <div class="label">
                         <span class="label-text">이메일</span>
                     </div>
-                    <div style="display: flex">
-                        <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력해주세요"
-                           class="input input-bordered w-full max-w-xs mr-1" required>
-                        <button class="btn btn-active">인증번호전송</button>
+                    <div class="flex">
+                        <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력하세요"
+                               class="input input-bordered w-full max-w-xs mr-1" required>
+                        <button class="btn btn-active">인증번호 전송</button>
+                    </div>
+                    <div class="mt-3">
+                        <input type="text" id="code" placeholder="인증번호를 입력하세요"
+                               class="input input-bordered w-full max-w-xs mr-1" required>
                     </div>
                 </label>
 
@@ -77,8 +81,8 @@
 
         confirmPassword.addEventListener('input', () => {
             if (confirmPassword.value === "") {
-                message.textContent = "";
-                return;
+                message.textContent= "";
+                return; //패스워드를 입력하지 않으면 텍스트가 표시 되지않는다.
             }
             if (confirmPassword.value === password.value) {
                 message.textContent = "비밀번호가 일치합니다.";
