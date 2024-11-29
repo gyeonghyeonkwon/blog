@@ -4,10 +4,12 @@ import com.ll.blog.domain.Email.util.RandomValue;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.Optional;
 
@@ -33,7 +35,7 @@ public class EmailServiceImpl implements EmailService {
                         "<br>" +
                         "인증번호를 제대로 입력해주세요"; //이메일 내용 삽입
         mailSend(setFrom, toMail, title, content); //메일을 전송
-        redisService.setDataExpire(String.valueOf(randomValue) , toMail , 60 * 5L); //인증번호 (key) , 이메일(value) 5분동안 redis 에 저장
+        redisService.setDataExpire(String.valueOf(randomValue), toMail , 60 * 5L); //인증번호 (key) , 이메일(value) 5분동안 redis 에 저장
         return Integer.toString(randomValue); //인증번호 6자리
     }
 
@@ -55,10 +57,10 @@ public class EmailServiceImpl implements EmailService {
     }
     //인증번호 일치하는지 여부 , 본인이메일 일치하는지 여부
     public Boolean verificationCodeCheck(String email, String verificationCode) {
-        String code = redisService.getData(verificationCode);
-        if (code == null) {
+        String value = redisService.getData(verificationCode); //value 의 값을 찾는다.
+        if (value == null) {
             return false;
         }
-       return code.equals(email);
+       return value.equals(email); //value 값 일치여부
     }
 }
