@@ -9,5 +9,8 @@ import lombok.Setter;
 public class EmailCodeCheckRequest {
 
     @NotBlank
-    private int  verificationCode; //인증번호
+    private String email;
+
+    @NotBlank
+    private String  verificationCode; //인증번호
 }
