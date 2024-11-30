@@ -1,4 +1,4 @@
-package com.ll.blog.domain.Email.service;
+package com.ll.blog.domain.global.redis.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;

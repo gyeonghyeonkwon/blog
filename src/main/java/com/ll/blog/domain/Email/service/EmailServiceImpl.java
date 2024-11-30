@@ -1,17 +1,14 @@
 package com.ll.blog.domain.Email.service;
 
 import com.ll.blog.domain.Email.util.RandomValue;
+import com.ll.blog.domain.global.redis.service.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.spring6.SpringTemplateEngine;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +54,7 @@ public class EmailServiceImpl implements EmailService {
     }
     //인증번호 일치하는지 여부 , 본인이메일 일치하는지 여부
     public Boolean verificationCodeCheck(String email, String verificationCode) {
-        String value = redisService.getData(verificationCode); //value 의 값을 찾는다.
+        String value = redisService.getData(verificationCode); //key에 해당하는 value값을 반환.
         if (value == null) {
             return false;
         }

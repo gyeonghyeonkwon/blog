@@ -1,4 +1,4 @@
-package com.ll.blog.domain.Email.config;
+package com.ll.blog.domain.global.redis.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
