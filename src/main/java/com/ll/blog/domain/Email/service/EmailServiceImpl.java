@@ -1,6 +1,5 @@
 package com.ll.blog.domain.Email.service;
 
-import com.ll.blog.domain.Email.util.RandomValue;
 import com.ll.blog.domain.global.redis.service.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -10,8 +9,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import javax.naming.Context;
+import java.security.SecureRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -20,24 +22,28 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
     private final RedisService redisService;
+    private final SpringTemplateEngine templateEngine;
 
     @Value("${spring.mail.sender-email}")
     private String senderEmail; //보내는사람 이메일
 
+    //인증번호 6자리 생성
+    public int randomValueGeneration() {
+        SecureRandom secureRandom = new SecureRandom();
+        StringBuilder randomValue = new StringBuilder();
+        for (int i = 1; i <= 6; i++) {
+            randomValue.append(secureRandom.nextInt(9) + 1) ; // 0 ~ 9 까지의 임의의 숫자를 한개씩 6번 누적
+        }
+        return Integer.parseInt(randomValue.toString());
+    }
+
     //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성합니다.
     public String joinEmail(String email) {
-        RandomValue random = new RandomValue();
-        int randomValue = random.getRandomValue();
-        String toMail = email;
+        int randomValue = randomValueGeneration();
         String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목
-        String content =
-                "저의 블로그를 방문해주셔서 감사합니다." + 	//html 형식으로 작성 !
-                        "<br><br>" +
-                        "인증 번호는 " + randomValue + "입니다." +
-                        "<br>" +
-                        "인증번호를 제대로 입력해주세요"; //이메일 내용 삽입
-        mailSend(senderEmail, toMail, title, content); //메일을 전송
-        redisService.setDataExpire(String.valueOf(randomValue), toMail , 60 * 5L); //인증번호 (key) , 이메일(value) 5분동안 redis 에 저장
+        String content = htmlContent(randomValue);
+        mailSend(senderEmail, email, title, content); //메일을 전송 (보내는사람 , 받는사람 , 제목 , 내용)
+        redisService.setDataExpire(String.valueOf(randomValue), email , 60 * 5L); //인증번호 (key) , 이메일(value) 5분동안 redis 에 저장
         return Integer.toString(randomValue); //인증번호 6자리
     }
 
@@ -57,6 +63,13 @@ public class EmailServiceImpl implements EmailService {
             e.printStackTrace(); //e.printStackTrace()는 예외를 기본 오류 스트림에 출력하는 메서드
         }
     }
+
+    public String htmlContent (int randomValue) {
+        Context context = new Context();
+        context.setVariable("authCode" , randomValue);
+        return templateEngine.process("domain/member/mail" , context);
+    }
+
     //인증번호 일치하는지 여부 , 본인이메일 일치하는지 여부
     public Boolean verificationCodeCheck(String email, String verificationCode) {
         String value = redisService.getData(verificationCode); //key에 해당하는 value값을 반환.

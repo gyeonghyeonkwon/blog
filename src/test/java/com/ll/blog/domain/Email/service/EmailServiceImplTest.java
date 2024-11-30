@@ -1,11 +1,11 @@
 package com.ll.blog.domain.Email.service;
 
-import com.ll.blog.domain.Email.util.RandomValue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,24 @@ class EmailServiceImplTest {
 
     @Test
     void joinEmail() {
-        String test = emailService.joinEmail("kyanghyang12@naver.com");
+        String authCode = emailService.joinEmail("kyanghyang12@naver.com");
+        System.out.println(authCode);
+    }
+
+    @Test
+    @DisplayName("6자리의 난수테스트")
+    void randomValue() {
+        String value = String.valueOf(emailService.randomValueGeneration());
+        String[] arrayValue = value.split("");
+        System.out.println("랜덤숫자 값: " + Arrays.toString(arrayValue));
+        assertThat(arrayValue.length).isEqualTo(6);
+    }
+
+    @Test
+    @DisplayName("메일내용테스트")
+    void sendMainContent() {
+        int randomValue = 123456;
+        String test = emailService.htmlContent(randomValue);
         System.out.println(test);
     }
 }
