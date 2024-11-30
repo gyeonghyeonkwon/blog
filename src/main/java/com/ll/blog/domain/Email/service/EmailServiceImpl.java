@@ -5,10 +5,13 @@ import com.ll.blog.domain.global.redis.service.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.naming.Context;
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +21,13 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender javaMailSender;
     private final RedisService redisService;
 
+    @Value("${spring.mail.sender-email}")
+    private String senderEmail; //보내는사람 이메일
+
     //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성합니다.
     public String joinEmail(String email) {
         RandomValue random = new RandomValue();
         int randomValue = random.getRandomValue();
-        String setFrom = "kyanghyang12@naver.com"; // email-config에 설정한 자신의 이메일 주소를 입력
         String toMail = email;
         String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목
         String content =
@@ -31,7 +36,7 @@ public class EmailServiceImpl implements EmailService {
                         "인증 번호는 " + randomValue + "입니다." +
                         "<br>" +
                         "인증번호를 제대로 입력해주세요"; //이메일 내용 삽입
-        mailSend(setFrom, toMail, title, content); //메일을 전송
+        mailSend(senderEmail, toMail, title, content); //메일을 전송
         redisService.setDataExpire(String.valueOf(randomValue), toMail , 60 * 5L); //인증번호 (key) , 이메일(value) 5분동안 redis 에 저장
         return Integer.toString(randomValue); //인증번호 6자리
     }
