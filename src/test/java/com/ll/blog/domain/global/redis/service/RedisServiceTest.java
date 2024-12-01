@@ -14,7 +14,7 @@ class RedisServiceTest {
     private RedisService redisService;
 
     @Test
-    @DisplayName("redis value값")
+    @DisplayName("redis value값 테스트")
     void redisTest() {
         String key = "kyanghyang12@naver.com";
         String value = "123456";
