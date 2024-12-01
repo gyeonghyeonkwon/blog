@@ -15,22 +15,22 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class MemberController {
 
-    private final MemberService memberService;
+  private final MemberService memberService;
 
-    @GetMapping("/signup")
-    public String signUp(MemberJoinRequest memberJoinRequest, Model model) {
-        model.addAttribute("memberJoinRequest", memberJoinRequest);
-        return "domain/member/signup";
-    }
+  @GetMapping("/signup")
+  public String signUp(MemberJoinRequest memberJoinRequest, Model model) {
+    model.addAttribute("memberJoinRequest", memberJoinRequest);
+    return "domain/member/signup";
+  }
 
-    @PostMapping("/signup")
-    public String signUp(@Valid MemberJoinRequest memberJoinRequest) {
-        memberService.signUp(memberJoinRequest);
-        return "redirect:/member/login";
-    }
+  @PostMapping("/signup")
+  public String signUp(@Valid MemberJoinRequest memberJoinRequest) {
+    memberService.signUp(memberJoinRequest);
+    return "redirect:/member/login";
+  }
 
-    @GetMapping("/login")
-    public String login() {
-        return "domain/member/login";
-    }
+  @GetMapping("/login")
+  public String login() {
+    return "domain/member/login";
+  }
 }

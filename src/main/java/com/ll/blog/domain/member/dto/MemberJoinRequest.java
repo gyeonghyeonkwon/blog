@@ -18,30 +18,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Builder
 public class MemberJoinRequest {
 
-    @NotBlank(message = "본명을 입력해주세요.")
-    private String realName;
+  @NotBlank(message = "본명을 입력해주세요.")
+  private String realName;
 
-    @NotBlank(message = "로그인 아이디를 입력해주세요.")
-    private String loginId;
+  @NotBlank(message = "로그인 아이디를 입력해주세요.")
+  private String loginId;
 
-    @NotBlank(message = "비밀번호를 입력해주세요.")
-    private String password;
+  @NotBlank(message = "비밀번호를 입력해주세요.")
+  private String password;
 
-    @NotBlank(message = "비밀번호 확인란을 입력해주세요.")
-    private String passwordConfirm;
+  @NotBlank(message = "비밀번호 확인란을 입력해주세요.")
+  private String passwordConfirm;
 
-    @NotBlank(message = "이메일은 필수항목입니다.")
-    @Email
-    private String email;
+  @NotBlank(message = "이메일은 필수항목입니다.")
+  @Email
+  private String email;
 
-    public Member toEntity() {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return Member.builder()
-                .email(this.email)
-                .realName(this.realName)
-                .loginId(this.loginId)
-                .password(passwordEncoder.encode(this.password))
-                .role(MemberRole.MEMBER)
-                .build();
-    }
+  public Member toEntity() {
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    return Member.builder()
+        .email(this.email)
+        .realName(this.realName)
+        .loginId(this.loginId)
+        .password(passwordEncoder.encode(this.password))
+        .role(MemberRole.MEMBER)
+        .build();
+  }
 }

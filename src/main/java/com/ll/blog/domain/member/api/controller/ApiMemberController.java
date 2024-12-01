@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class ApiMemberController {
 
-    private final MemberService memberService;
+  private final MemberService memberService;
 
-    @PostMapping("/member/loginIdCheck")
-    public ResponseEntity loginIdCheck(@RequestBody @Valid JoinLoginIdCheckRequest joinLoginIdCheckRequest) {
-        boolean isLoginIdCheck =  memberService.isCheckLoginId(joinLoginIdCheckRequest.getLoginId());
-        JoinLoginIdCheckResponse joinLoginIdCheckResponse = new JoinLoginIdCheckResponse(joinLoginIdCheckRequest.getLoginId(), isLoginIdCheck);
-        return new ResponseEntity<>(joinLoginIdCheckResponse, HttpStatus.OK);
-    }
+  @PostMapping("/member/loginIdCheck")
+  public ResponseEntity loginIdCheck(@RequestBody @Valid JoinLoginIdCheckRequest joinLoginIdCheckRequest) {
+    boolean isLoginIdCheck = memberService.isCheckLoginId(joinLoginIdCheckRequest.getLoginId());
+    JoinLoginIdCheckResponse joinLoginIdCheckResponse = new JoinLoginIdCheckResponse(joinLoginIdCheckRequest.getLoginId(), isLoginIdCheck);
+    return new ResponseEntity<>(joinLoginIdCheckResponse, HttpStatus.OK);
+  }
 }

@@ -13,22 +13,23 @@ import javax.security.sasl.AuthorizeCallback;
 @AllArgsConstructor
 @Builder
 public class Member extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
 
-    @Column(length = 4, nullable = false)
-    private String realName;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long memberId;
 
-    @Column(unique = true)
-    private String loginId;
+  @Column(length = 4, nullable = false)
+  private String realName;
 
-    private String password;
+  @Column(unique = true)
+  private String loginId;
 
-    @Email
-    @Column(unique = true)
-    private String email;
+  private String password;
 
-    @Enumerated(value = EnumType.STRING)
-    private MemberRole role;
+  @Email
+  @Column(unique = true)
+  private String email;
+
+  @Enumerated(value = EnumType.STRING)
+  private MemberRole role;
 }

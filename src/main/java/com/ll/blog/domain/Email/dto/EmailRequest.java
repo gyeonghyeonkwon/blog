@@ -14,7 +14,8 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailRequest {
-    @Email
-    @NotBlank
-    private String email;
+
+  @Email
+  @NotBlank
+  private String email;
 }

@@ -9,21 +9,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class MemberService{
+public class MemberService {
 
-    private final MemberRepository memberRepository;
+  private final MemberRepository memberRepository;
 
-    @Transactional
-    public void signUp(final MemberJoinRequest memberJoinRequest) {
-        if (isCheckLoginId(memberJoinRequest.getLoginId())) {
-            throw new IllegalArgumentException("아이디가 존재합니다.");
-        }
-        if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
-        }
-         memberRepository.save(memberJoinRequest.toEntity());
+  @Transactional
+  public void signUp(final MemberJoinRequest memberJoinRequest) {
+    if (isCheckLoginId(memberJoinRequest.getLoginId())) {
+      throw new IllegalArgumentException("아이디가 존재합니다.");
     }
-    public boolean isCheckLoginId(final String loginId) {
-        return memberRepository.existsByLoginId(loginId);
+    if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
+      throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
     }
+    memberRepository.save(memberJoinRequest.toEntity());
+  }
+
+  public boolean isCheckLoginId(final String loginId) {
+    return memberRepository.existsByLoginId(loginId);
+  }
 }
