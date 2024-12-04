@@ -1,9 +1,10 @@
-<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml"
+      xmlns:display="http://www.w3.org/1999/xhtml">
 <div layout:fragment="content" class="flex justify-center items-center min-h-screen bg-gray-100 content">
     <div class="card w-96 bg-white shadow-xl">
         <div class="card-body">
             <h2 class="text-center text-2xl font-bold mb-3">회원가입</h2>
-            <form th:action="@{/member/signup}" th:object="${memberJoinRequest}" th:method="post">
+            <form id="form" th:action="@{/member/signup}" th:object="${memberJoinRequest}" th:method="post">
                 <!-- 아이디 -->
                 <label class="form-control w-full max-w-xs">
                     <div class="label">
@@ -11,10 +12,12 @@
                     </div>
                     <div class="flex">
                     <input type="text" id="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
-                           class="input input-bordered w-full max-w-xs mr-1" required>
-                    <button class="btn btn-active" onclick="loginIdCheck()">중복검사</button>
+                           class="input input-bordered w-full max-w-xs mr-1" >
+                        <button class="btn btn-active" id="duplicateCheck" type="button">중복검사</button>
                     </div>
-                    <p id="idCheckMessage"></p>
+                    <p id="idCheck"></p>
+                    <span id="id-ok" style="color: green; display: none">사용가능한아이디입니다.</span>
+                    <span id="id-already" style="color: red; display: none">다른아이디를사용해주세요.</span>
                 </label>
 
                 <!-- 이름 -->
@@ -22,8 +25,8 @@
                     <div class="label">
                         <span class="label-text">이름</span>
                     </div>
-                    <input type="text" id="realName" th:field="*{realName}" placeholder="이름을 입력하세요" class="input input-bordered w-full max-w-xs"
-                           required>
+                    <input type="text" id="realName" th:field="*{realName}" placeholder="이름을 입력하세요" class="input input-bordered w-full max-w-xs" required>
+                    <p id="realNameCheck"></p>
                 </label>
 
                 <!-- 이메일 -->
@@ -34,13 +37,15 @@
                     <div class="flex">
                         <input type="email" id="email" th:field="*{email}" placeholder="이메일을 입력하세요"
                                class="input input-bordered w-full max-w-xs mr-1" required>
-                        <button class="btn btn-active">인증번호 전송</button>
+                        <button class="btn btn-active" type="button" id="authCode">인증번호 전송</button>
                     </div>
+                    <p id="emailCheck"></p>
                     <div class="mt-3 flex">
                         <input type="text" id="code" placeholder="인증번호 6자리를 입력하세요"
                                class="input input-bordered w-full max-w-xs mr-1" maxlength="6" required>
-                        <button class="btn btn-active">인증확인</button>
+                        <button class="btn btn-active" type="button" id="auth-code-confirm">인증확인</button>
                     </div>
+                    <p id="authCodeCheck"></p>
                 </label>
 
                 <!-- 비밀번호 -->
@@ -59,7 +64,7 @@
                     </div>
                     <input type="password" id="passwordConfirm" th:field="*{passwordConfirm}"
                            placeholder="비밀번호를 다시 입력하세요" class="input input-bordered w-full max-w-xs" required>
-                    <p id="message"></p>
+                    <p id="passwordCheck"></p>
                 </label>
 
                 <!-- 회원가입 버튼 -->
@@ -72,60 +77,94 @@
 
     <th:block layout:fragment="script">
     <script th:inline="javascript">
-        /*비밀번호 일치 여부체크
-        * 비밀번호가 서로 일치하면 버튼 enable
-        * 비밀번호가 서로 일치하지않으면 disable
-        * */
+        const idCheck = document.getElementById('idCheck');
         const password = document.getElementById('password');
         const confirmPassword = document.getElementById('passwordConfirm');
-        const message = document.getElementById('message');
+        const passwordMessage = document.getElementById('passwordCheck');
         const submitButton = document.getElementById('submitButton');
 
-        confirmPassword.addEventListener('input', () => {
-            if (confirmPassword.value === "") {
-                message.textContent= "";
-                return; //패스워드를 입력하지 않으면 텍스트가 표시 되지않는다.
-            }
-            if (confirmPassword.value === password.value) {
-                message.textContent = "비밀번호가 일치합니다.";
-                message.style.color = "green";
-                submitButton.disabled = false;
-
-            } else {
-                message.textContent = "비밀번호가 일치하지 않습니다.";
-                message.style.color = "red";
-                submitButton.disabled = true;
-            }
+        jQuery(function (){
+            const form = $('#form');
+            form.validate({
+                rules: {
+                   loginId: {
+                       // required: true,
+                       minlength: 5,
+                       maxlength: 12,
+                   }
+               },
+                messages: {
+                    loginId: {
+                        // required: '아이디를입력하세요.',
+                        minlength: '최소 5글자이상입력하세요.',
+                        maxlength: '최대 12글자이상입력하세요.',
+                    }
+                },
+                errorPlacement: function (error, element) {
+                    if (element.attr("id") === "loginId") {
+                        // "loginId" 필드에만 오류 메시지를 특정 위치에 삽입
+                        error.appendTo("#idCheck");
+                    }
+                    else if (element.attr("id") === "email") {
+                        error.appendTo("#emailCheck");
+                    }
+                    else if (element.attr("id") === "code") {
+                        error.appendTo("#authCodeCheck");
+                    }
+                    else {
+                        // 다른 필드는 기본 동작
+                        error.insertAfter(element);
+                    }
+                },
+            });
         });
-        // 여기까지 비밀번호 체크
+        //아이디 알림텍스트초기화
+        $('#loginId').on('input', function () {
+            const  loginId = $('#loginId').val().trim();
+            $('#duplicateCheck').prop("disabled" , false);
+            if (loginId === '' || loginId.length < 5 || loginId.length < 12 || loginId.length > 5 || loginId.length > 12){
+               $('#idCheck').text('');
+               $('#id-ok').css("display" , "none");
+               $('#id-already').css("display" , "none");
+           }
+            if (loginId.length < 5 || loginId.length > 12) {
+                $('#duplicateCheck').prop("disabled" , true);
+            }
+
+        });
 
         // 아이디중복확인 시작
-        function loginIdCheck() {
+        $('#duplicateCheck').on('click' , function (){
             const csrfToken = $('meta[name="_csrf"]').attr('content'); // CSRF 토큰 값
             const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); // CSRF 헤더 이름
             const loginId = $('#loginId').val().trim();
-            if (loginId === "") {
-                $('#idCheckMessage').text('아이디를 입력해주세요.');
-                document.getElementById("idCheckMessage").style.color = 'red';
+            if (loginId === '') {
+                $("#idCheck").text('아이디를 입력하세요!');
                 return;
             }
+            if (loginId.length < 5 || loginId.length < 12) {
+                $('#id-ok').css("display" , "none");
+                $('#id-already').css("display" , "none");
+            }
+
             $.ajax({
                 type: 'POST',
                 url: "/api/member/loginIdCheck", //Controller 주소
                 contentType: 'application/json', // JSON 데이터로 전송
-                data: JSON.stringify({loginId : loginId }),
+                data: JSON.stringify({loginId: loginId}),
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(csrfHeader, csrfToken); // CSRF 헤더 설정
                 },
                 success: function (response) {
                     console.log(response);
-                    if(response.availability){
-                        $("#idCheckMessage").text('이미 사용중인 아이디입니다');
-                        document.getElementById("idCheckMessage").style.color = 'red';
+                    if (response.availability) {
+                        $('#id-already').css("display" , "inline-block");
+                        $('#id-ok').css("display" , "none");
                         submitButton.disabled = true;
-                    }else{
-                        document.getElementById("idCheckMessage").style.color = 'green';
-                        $("#idCheckMessage").text('사용 가능한 아이디입니다');
+                    }
+                    else {
+                        $('#id-ok').css("display" , "inline-block")
+                        $('#id-already').css("display" , "none");
                         submitButton.disabled = false;
                     }
                 },
@@ -133,8 +172,67 @@
                     alert("API 요청실패");
                 }
             });
+        });
             // 아이디중복확인 끝
-        }
+
+
+        /*비밀번호 일치 여부체크 시작
+        * 비밀번호가 서로 일치하면 버튼 enable
+        * 비밀번호가 서로 일치하지않으면 disable
+        * */
+        confirmPassword.addEventListener('input', () => {
+            if (password.value.trim() === "") {
+                passwordMessage.textContent = "";
+                return; //패스워드를 입력하지 않으면 텍스트가 표시 되지않는다.
+            }
+            if (confirmPassword.value === "") {
+                passwordMessage.textContent = "";
+                return; //패스워드를 입력하지 않으면 텍스트가 표시 되지않는다.
+            }
+            if (confirmPassword.value === password.value) {
+                passwordMessage.textContent = "비밀번호가 일치합니다.";
+                passwordMessage.style.color = "green";
+                submitButton.disabled = false;
+
+            } else {
+                passwordMessage.textContent = "비밀번호가 일치하지 않습니다.";
+                passwordMessage.style.color = "red";
+                submitButton.disabled = true;
+            }
+
+        });
+        // 비밀번호 체크 끝
+
+            //인증번호 전송 시작
+            $(function () {
+                const csrfToken = $('meta[name="_csrf"]').attr('content'); //csrf
+                const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); //csrf
+                $('#auth-code').on('click', function () {
+                    const email = $('#email').val().trim();
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/member/mailSend',
+                        contentType: 'application/json',
+                        data: JSON.stringify({email: email}),
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader(csrfHeader, csrfToken); // CSRF 헤더 설정
+                        },
+                        success: function (data) {
+                            console.log(data);
+                            if (data) {
+                                alert("인증코드를 전송하였습니다. 이메일을확인해주세요.")
+                            } else {
+                                document.getElementById("auth-code").style.color = 'red';
+                                $("#idCheckMessage").text('이메일을 잘못 입력하였습니다 ');
+                                submitButton.disabled = true;
+                            }
+                        },
+                        error: function () {
+                            alert("이메일 전송실패");
+                        }
+                    })
+                })
+            });
     </script>
     </th:block>
 </div>
