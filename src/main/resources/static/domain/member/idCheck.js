@@ -18,11 +18,17 @@ $('#loginId').on('input', function () {
 $('#duplicateCheck').on('click' , function (){
   const csrfToken = $('meta[name="_csrf"]').attr('content'); // CSRF 토큰 값
   const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); // CSRF 헤더 이름
+  const regexId = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/;
   const loginId = $('#loginId').val().trim();
   if (loginId === '') {
     $("#idCheck").text('아이디를 입력하세요!');
     return;
   }
+  if (!regexId.exec(loginId)) {
+    $("#idCheck").text('숫자로만 입력할 수 없습니다. 소문자 + 숫자 로만 입력가능합니다.');
+    return;
+  }
+
   $.ajax({
     type: 'POST',
     url: "/api/member/loginIdCheck", //Controller 주소
