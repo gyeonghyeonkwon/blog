@@ -1,9 +1,10 @@
 
 //아이디 알림텍스트초기화
 $('#loginId').on('input', function () {
-  const  loginId = $('#loginId').val().trim();
-  const regexId = pattern; //로그인 아이디 패턴
   $('#duplicateCheck').prop("disabled" , false);
+  const  loginId = $('#loginId').val().trim();
+  const regexId = loginIdPattern; //로그인 아이디 패턴
+
   if (loginId === '' || loginId.length < 5 || loginId.length < 12 || loginId.length > 5 || loginId.length > 12){
     $('#idCheck').text('');
     $('#id-ok').css("display" , "none");
@@ -27,7 +28,6 @@ $('#duplicateCheck').on('click' , function (){
     $("#idCheck").text('아이디를 입력하세요!');
     return;
   }
-
   $.ajax({
     type: 'POST',
     url: "/api/member/loginIdCheck", //Controller 주소
@@ -38,15 +38,15 @@ $('#duplicateCheck').on('click' , function (){
     },
     success: function (response) {
       console.log(response);
-      if (response.availability) {
+      if (response.data.availability) {
         $('#id-already').css("display" , "inline-block");
         $('#id-ok').css("display" , "none");
-        submitButton.disabled = true;
+        $('#submitButton').prop("disabled" , true);
       }
       else {
         $('#id-ok').css("display" , "inline-block")
         $('#id-already').css("display" , "none");
-        submitButton.disabled = false;
+        $('#submitButton').prop("disabled" , false);
       }
     },
     error: function () {
