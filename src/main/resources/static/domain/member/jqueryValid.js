@@ -38,9 +38,9 @@ const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그�
       },
       //에러메세지 위치지정
       errorPlacement: function (error, element) {
-        if (element.attr("id") === "loginId") { //
+        if (element.attr("id") === "login-id") { //
           // "loginId" 필드에만 오류 메시지를 특정 위치에 삽입
-          error.appendTo("#idCheck");
+          error.appendTo("#id-check-msg");
         }
         else if (element.attr("id") === "email") {
           error.appendTo("#emailCheck");

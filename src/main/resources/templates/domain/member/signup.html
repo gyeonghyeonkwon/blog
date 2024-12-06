@@ -13,11 +13,11 @@
             <span class="label-text">아이디</span>
           </div>
           <div class="flex">
-            <input type="text" id="loginId" name="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
+            <input type="text" id="login-id" name="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
                    class="input input-bordered w-full max-w-xs mr-1">
-            <button class="btn btn-active" id="duplicateCheck" type="button">중복검사</button>
+            <button class="btn btn-active" id="check-duplicate-btn" type="button">중복검사</button>
           </div>
-          <p id="idCheck"></p>
+          <p id="id-check-msg"></p>
           <span id="id-ok" style="color: green; display: none">사용가능한아이디입니다.</span>
           <span id="id-already" style="color: red; display: none">다른아이디를사용해주세요.</span>
         </label>

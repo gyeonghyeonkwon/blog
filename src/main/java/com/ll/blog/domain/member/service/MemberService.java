@@ -18,7 +18,7 @@ public class MemberService {
   @Transactional
   public void signUp(final MemberJoinRequest memberJoinRequest) {
     if (isCheckLoginId(memberJoinRequest.getLoginId())) {
-      throw new IllegalArgumentException("아이디가 존재합니다.");
+       throw new IllegalArgumentException("아이디가 존재합니다.");
     }
     if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
       throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");

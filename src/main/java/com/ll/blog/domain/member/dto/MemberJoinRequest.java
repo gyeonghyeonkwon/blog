@@ -40,6 +40,7 @@ public class MemberJoinRequest {
   private String email;
 
   @NotBlank(message = "인증코드를 입력해주세요.")
+
   private String verificationCode; //인증코드
 
   public Member toEntity() {
