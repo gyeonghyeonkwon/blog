@@ -45,9 +45,9 @@
             <p id="emailCheck"></p>
             <p id="emailBlankMassage" style="display: none"></p>
           <div class="mt-3 flex">
-            <input type="text" id="code" name="code" placeholder="인증번호 6자리를 입력하세요"
+            <input type="text" id="verificationCode" name="VerificationCode" th:field="*{verificationCode}" placeholder="인증번호 6자리를 입력하세요"
                    class="input input-bordered w-full max-w-xs mr-1" maxlength="6" required>
-            <button class="btn btn-active" type="button" id="verification">인증확인</button>
+            <button class="btn btn-active" type="button" id="verificationBtn">인증확인</button>
           </div>
             <p id="authCodeCheck"></p>
         </label>
@@ -113,41 +113,37 @@
       });
       // 비밀번호 체크 끝
 
-      // emailCheck 가 텍스트가 적혀있으면 "공백으로는 이메일을 전송할수없습니다." 라는 텍스트를 숨긴다
-      $('#email').on('input' , function (){
-            if ($('#emailCheck') !== '') {
-                $('#emailBlankMassage').hide();
-            }
-      });
-      //이메일 인증번호 전송 시작
-      $('#emailSend').on('click', function () {
-        const csrfToken = $('meta[name="_csrf"]').attr('content'); //csrf Token
-        const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); //csrf Token
-        const email = $('#email').val().trim();
-        if (email === '') {
-            $('#emailBlankMassage').text('공백으로는 이메일을 전송할수없습니다.').show();
+      $('#verificationBtn').on('click' , function () {
+        const csrfToken = $('meta[name="_csrf"]').attr('content');
+        const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+        const email = $('#email').val().trim(); //이메일
+        const verificationCode = $('#verificationCode').val().trim(); //인증번호
+        const requestData = {
+          email : email,
+          verificationCode : verificationCode,
+        }
+        if (verificationCode === '' || email === '') {
           return;
         }
         $.ajax({
           type: 'POST',
-          url: '/api/member/mailSend',
+          url: '/api/member/verificationCode',
           contentType: 'application/json',
-          data: JSON.stringify({email: email}),
+          data: JSON.stringify(requestData), //데이터 요청
           beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken); // CSRF 헤더 설정
           },
           success: function (data) {
             console.log(data);
             if (data) {
-              alert("인증코드를 전송하였습니다. 이메일을확인해주세요.")
+              alert('인증성공')
             }
           },
           error: function () {
-            alert("이메일 전송이실패하였습니다.")
+            alert("인증실패")
           }
         });
       });
-      //끝
 
     </script>
   </th:block>

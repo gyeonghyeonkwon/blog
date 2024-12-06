@@ -1,5 +1,6 @@
 package com.ll.blog.domain.member.service;
 
+import com.ll.blog.domain.Email.service.EmailService;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
+  private final EmailService emailService;
 
   @Transactional
   public void signUp(final MemberJoinRequest memberJoinRequest) {
@@ -20,6 +22,10 @@ public class MemberService {
     }
     if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
       throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
+    }
+    if (!emailService.verificationCodeCheck(memberJoinRequest.getEmail(),
+        memberJoinRequest.getVerificationCode())) {
+      throw new NullPointerException("인증코드가 일치하지않습니다.");
     }
     memberRepository.save(memberJoinRequest.toEntity());
   }

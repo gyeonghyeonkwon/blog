@@ -75,8 +75,8 @@ public class EmailService {
   public Boolean verificationCodeCheck(String email, String verificationCode) {
     String value = redisService.getData(email); //key에 해당하는 value값을 반환.
     if (value == null) {
-      return false;
+      return false; //value 값이 null 이면 false 반환
     }
-    return value.equals(verificationCode); //value 값 일치여부
+    return value.equals(verificationCode); //value 값 일치여부 , 일치하면 true , 일치하지않으면 false 반환
   }
 }

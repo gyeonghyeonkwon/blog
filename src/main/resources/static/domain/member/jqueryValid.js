@@ -15,7 +15,7 @@ const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그�
           required: true,
           email: true,
         },
-        code: {
+        verificationCode: {
           required: true,
           minlength: 6,
         }
@@ -31,7 +31,7 @@ const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그�
           required: '이메일을 입력해주세요.',
           email: '올바른 이메일 형식으로 입력하세요.',
         },
-        code: {
+        verificationCode: {
           required: '인증번호를 입력해주세요.',
           minlength: '1 ~ 9까지의 숫자 6자리를 입력해주세요.',
         },
@@ -45,7 +45,7 @@ const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그�
         else if (element.attr("id") === "email") {
           error.appendTo("#emailCheck");
         }
-        else if (element.attr("id") === "code") {
+        else if (element.attr("id") === "verificationCode") {
           error.appendTo("#authCodeCheck");
         }
         else {
