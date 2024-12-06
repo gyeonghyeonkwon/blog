@@ -42,8 +42,8 @@
                    class="input input-bordered w-full max-w-xs mr-1" required>
             <button class="btn btn-active" type="button" id="emailSend">인증번호전송</button>
           </div>
-            <p id="emailCheck"></p>
-            <p id="emailBlankMassage" style="display: none"></p>
+            <p id="email-check-msg"></p>
+            <p id="email-blank-msg" style="display: none"></p>
           <div class="mt-3 flex">
             <input type="text" id="verificationCode" name="VerificationCode" th:field="*{verificationCode}" placeholder="인증번호 6자리를 입력하세요"
                    class="input input-bordered w-full max-w-xs mr-1" maxlength="6" required>

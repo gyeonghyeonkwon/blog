@@ -1,16 +1,16 @@
 // emailCheck 가 텍스트가 적혀있으면 "공백으로는 이메일을 전송할수없습니다." 라는 텍스트를 숨긴다
 $('#email').on('input' , function (){
-  if ($('#emailCheck') !== '') {
-    $('#emailBlankMassage').hide();
+  if ($('#email-check-msg') !== '') {
+    $('#email-blank-msg').hide(); //공백일때 출력된다
   }
 });
 //이메일 인증번호 전송 시작
-$('#emailSend').on('click', function () {
+$('#send-code-btn').on('click', function () {
   const csrfToken = $('meta[name="_csrf"]').attr('content'); //csrf Token
   const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); //csrf Token
   const email = $('#email').val().trim();
   if (email === '') {
-    $('#emailBlankMassage').text('공백으로는 이메일을 전송할수없습니다.').show();
+    $('#email-blank-msg').text('공백으로는 이메일을 전송할수없습니다.').show();
     return;
   }
   $.ajax({

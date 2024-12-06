@@ -43,7 +43,7 @@ const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그�
           error.appendTo("#id-check-msg");
         }
         else if (element.attr("id") === "email") {
-          error.appendTo("#emailCheck");
+          error.appendTo("#email-check-msg");
         }
         else if (element.attr("id") === "verificationCode") {
           error.appendTo("#authCodeCheck");
