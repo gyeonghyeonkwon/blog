@@ -50,6 +50,7 @@
             <button class="btn btn-active" type="button" id="verify-code-btn">인증확인</button>
           </div>
             <p id="verification-code-msg"></p>
+            <p id="verification-blank-msg"></p>
         </label>
 
         <!-- 비밀번호 -->
@@ -113,17 +114,28 @@
       });
       // 비밀번호 체크 끝
 
+      $('#email').on('focus' , function (){
+        if ($('#verification-blank-msg') !== '') {
+          $('#verification-blank-msg').hide();
+           $('#email-blank-msg').hide();
+          return
+        }
+      });
+
       $('#verify-code-btn').on('click' , function () {
         const csrfToken = $('meta[name="_csrf"]').attr('content');
         const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
         const email = $('#email').val().trim(); //이메일
         const verificationCode = $('#verification-code').val().trim(); //인증번호
-        const requestData = {
+        const requestData = { //요청데이터
           email : email,
           verificationCode : verificationCode,
         }
-        if (verificationCode === '' || email === '') {
-          return;
+        if (email === '') {
+             $('#email-blank-msg').text('인증확인을 클릭하기전 이메일부터 입력해주세요.').show() //이메일 입력란이 공백일시 출력되는메시지
+        }
+         if (verificationCode === '') {
+           return $('#verification-blank-msg').text('인증코드 6자리를 입력하세요.').show();
         }
         $.ajax({
           type: 'POST',
