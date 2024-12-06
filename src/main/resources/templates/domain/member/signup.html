@@ -40,16 +40,16 @@
           <div class="flex">
             <input type="email" id="email" name="email" th:field="*{email}" placeholder="이메일을 입력하세요"
                    class="input input-bordered w-full max-w-xs mr-1" required>
-            <button class="btn btn-active" type="button" id="emailSend">인증번호전송</button>
+            <button class="btn btn-active" type="button" id="send-code-btn">인증번호전송</button>
           </div>
             <p id="email-check-msg"></p>
             <p id="email-blank-msg" style="display: none"></p>
           <div class="mt-3 flex">
-            <input type="text" id="verificationCode" name="VerificationCode" th:field="*{verificationCode}" placeholder="인증번호 6자리를 입력하세요"
+            <input type="text" id="verification-code" name="verificationCode" th:field="*{verificationCode}" placeholder="인증번호 6자리를 입력하세요"
                    class="input input-bordered w-full max-w-xs mr-1" maxlength="6" required>
-            <button class="btn btn-active" type="button" id="verificationBtn">인증확인</button>
+            <button class="btn btn-active" type="button" id="verify-code-btn">인증확인</button>
           </div>
-            <p id="authCodeCheck"></p>
+            <p id="verification-code-msg"></p>
         </label>
 
         <!-- 비밀번호 -->
@@ -66,14 +66,14 @@
           <div class="label">
             <span class="label-text">비밀번호 확인</span>
           </div>
-          <input type="password" id="passwordConfirm" name="passwordConfirm" th:field="*{passwordConfirm}"
+          <input type="password" id="password-confirm" name="passwordConfirm" th:field="*{passwordConfirm}"
                  placeholder="비밀번호를 다시 입력하세요" class="input input-bordered w-full max-w-xs" required>
-          <p id="passwordCheck"></p>
+          <p id="password-check-msg"></p>
         </label>
 
         <!-- 회원가입 버튼 -->
         <div class="form-control mt-6">
-          <button type="submit" id="submitButton" class="btn btn-primary">회원가입</button>
+          <button type="submit" id="submit-btn" class="btn btn-primary">회원가입</button>
         </div>
       </form>
     </div>
@@ -83,9 +83,9 @@
     <script th:inline="javascript">
       const idCheck = document.getElementById('idCheck');
       const password = document.getElementById('password');
-      const confirmPassword = document.getElementById('passwordConfirm');
-      const passwordMessage = document.getElementById('passwordCheck');
-      const submitButton = document.getElementById('submitButton');
+      const confirmPassword = document.getElementById('password-confirm');
+      const passwordMessage = document.getElementById('password-check-msg');
+      const submitButton = document.getElementById('submit-btn');
 
       /*비밀번호 일치 여부체크 시작
       * 비밀번호가 서로 일치하면 버튼 enable
@@ -113,11 +113,11 @@
       });
       // 비밀번호 체크 끝
 
-      $('#verificationBtn').on('click' , function () {
+      $('#verify-code-btn').on('click' , function () {
         const csrfToken = $('meta[name="_csrf"]').attr('content');
         const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
         const email = $('#email').val().trim(); //이메일
-        const verificationCode = $('#verificationCode').val().trim(); //인증번호
+        const verificationCode = $('#verification-code').val().trim(); //인증번호
         const requestData = {
           email : email,
           verificationCode : verificationCode,

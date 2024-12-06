@@ -46,7 +46,7 @@ const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그�
           error.appendTo("#email-check-msg");
         }
         else if (element.attr("id") === "verificationCode") {
-          error.appendTo("#authCodeCheck");
+          error.appendTo("#verification-code-msg");
         }
         else {
           // 다른 필드는 기본 동작

@@ -40,12 +40,12 @@ $('#check-duplicate-btn').on('click' , function (){
       if (response.data.availability) { //아이디가 중복이라면
         $('#id-already').css("display" , "inline-block");
         $('#id-ok').css("display" , "none");
-        $('#submitButton').prop("disabled" , true);
+        $('#submit-btn').prop("disabled" , true);
       }
       else { //아이디가 중복이 아니라면
         $('#id-ok').css("display" , "inline-block")
         $('#id-already').css("display" , "none");
-        $('#submitButton').prop("disabled" , false);
+        $('#submit-btn').prop("disabled" , false);
       }
     },
     error: function () {
