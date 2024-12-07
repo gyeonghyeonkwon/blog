@@ -9,6 +9,10 @@
           maxlength: 12,
           pattern: /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/,
         },
+        realName: {
+          required: true,
+          minlength: 4,
+        },
         email: {
           required: true,
           email: true,
@@ -25,6 +29,10 @@
           minlength: '최소 5글자이상입력하세요.',
           maxlength: '최대 12글자이상의 아이디를 생성 할 수없습니다.',
           pattern:'숫자로만 입력할 수 없습니다. 소문자 + 숫자 로만 입력가능합니다.',
+        },
+        realName: {
+          required: '본명을 입력하세요.',
+          minlength:'본명 4글자 초과할 수 없습니다.',
         },
         email: {
           required: '이메일을 입력해주세요.',

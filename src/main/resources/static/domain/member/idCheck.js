@@ -13,8 +13,8 @@ $('#check-duplicate-btn').on('click' , function (){
   const csrfToken = $('meta[name="_csrf"]').attr('content'); // CSRF 토큰 값
   const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); // CSRF 헤더 이름
   const loginId = $('#login-id').val().trim();
-  const isLoginIdValid = $('#login-id').valid();
-  if (!isLoginIdValid) {
+  const isLoginIdValid = $(`#login-id`).valid();
+  if (!isLoginIdValid) { //만약 로그인아이디가 공백이나 valid 조건에 맞지않은상태로 요청되었다고하면  isisLoginIdValid 가 false 이므로 false 면 종료된다.
     return;
   }
   $.ajax({

@@ -31,10 +31,7 @@ public class ApiEmailController {
   public ResponseEntity mailCode(@RequestBody @Valid EmailCodeCheckRequest emailCodeCheckRequest) {
     Boolean codeCheck = emailService.verificationCodeCheck(emailCodeCheckRequest.getEmail(),
         emailCodeCheckRequest.getVerificationCode());
-
-    if (codeCheck) {
-      return new ResponseEntity<>(ResponseData.res(200, "인증성공" , codeCheck), HttpStatus.OK);
-    }
-    throw new NullPointerException("인증 실패 , 인증번호가 만료되었거나 인증번호를 다시확인하세요.");
+    String isSuccess = codeCheck ? "인증에성공하였습니다." : "인증에실패하였습니다.";
+      return new ResponseEntity<>(ResponseData.res(200, isSuccess , codeCheck), HttpStatus.OK);
   }
 }
