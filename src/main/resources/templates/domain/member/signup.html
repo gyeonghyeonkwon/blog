@@ -129,12 +129,7 @@
           email : email,
           verificationCode : verificationCode,
         }
-        if (email === '') {
-             // $('#email-blank-msg').text('인증확인을 클릭하기전 이메일부터 입력해주세요.').show() //이메일 입력란이 공백일시 출력되는메시지
-        }
-         if (verificationCode === '') {
-           // return $('#verification-blank-msg').text('인증코드 6자리를 입력하세요.').show();
-        }
+
         $.ajax({
           type: 'POST',
           url: '/api/member/verificationCode',

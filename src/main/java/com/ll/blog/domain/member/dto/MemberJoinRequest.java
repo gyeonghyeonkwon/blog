@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class MemberJoinRequest {
 
   @NotBlank(message = "본명을 입력해주세요.")
+  @Size(min = 4 , message = "본명은 4자리까지 입력가능합니다.")
   private String realName;
 
   @NotBlank(message = "로그인 아이디를 입력해주세요.")
@@ -40,7 +41,8 @@ public class MemberJoinRequest {
   private String email;
 
   @NotBlank(message = "인증코드를 입력해주세요.")
-
+  @Size(min = 6 , message = "6자리의 숫자를 입력해주세요.")
+  @Pattern(regexp = "^[1-9]*$" , message = "1~9 사이의 숫자를입력해주세요.")
   private String verificationCode; //인증코드
 
   public Member toEntity() {

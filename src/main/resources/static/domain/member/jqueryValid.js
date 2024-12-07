@@ -1,5 +1,3 @@
-const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그인아이디 패턴 , jqueryValid.js 에서도 사용
-const verificationPattern = /^[1-9]*$/; //인증코드 1 ~ 9 숫자만 입력가능.
 
   jQuery(function (){
     const form = $('#form');
@@ -9,7 +7,7 @@ const verificationPattern = /^[1-9]*$/; //인증코드 1 ~ 9 숫자만 입력가
           required: true,
           minlength: 5,
           maxlength: 12,
-          pattern: loginIdPattern,
+          pattern: /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/,
         },
         email: {
           required: true,
@@ -18,6 +16,7 @@ const verificationPattern = /^[1-9]*$/; //인증코드 1 ~ 9 숫자만 입력가
         verificationCode: {
           required: true,
           minlength: 6,
+          pattern: /^[1-9]*$/,
         }
       },
       messages: {
@@ -33,7 +32,8 @@ const verificationPattern = /^[1-9]*$/; //인증코드 1 ~ 9 숫자만 입력가
         },
         verificationCode: {
           required: '인증번호를 입력해주세요.',
-          minlength: '1 ~ 9까지의 숫자 6자리를 입력해주세요.',
+          minlength: '6자리 인증번호를 입력해주세요.',
+          pattern: '1 ~ 9 까지의 숫자를 6자리 입력해주세요.'
         },
       },
       //에러메세지 위치지정

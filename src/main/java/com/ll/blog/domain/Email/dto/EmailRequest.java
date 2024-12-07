@@ -16,6 +16,6 @@ import org.springframework.stereotype.Service;
 public class EmailRequest {
 
   @Email
-  @NotBlank
+  @NotBlank(message = "이메일을 입력해주세요.")
   private String email;
 }
