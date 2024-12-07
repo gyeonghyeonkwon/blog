@@ -1,4 +1,11 @@
 
+//이메일이 바뀌었을경우 동작, 이메일이 바뀌면 인증코드도 바뀌어야하기때문에 인증코드를 초기화한다.
+$('#email').on('change', function (){
+      $('#verification-code').val(''); //인증코드입력란 초기화
+      $('#verification-success-msg').hide();
+      $('#verification-fail-msg').hide();
+});
+
 $('#verification-code').on('input' , function () {
   const csrfToken = $('meta[name="_csrf"]').attr('content');
   const csrfHeader = $('meta[name="_csrf_header"]').attr('content');

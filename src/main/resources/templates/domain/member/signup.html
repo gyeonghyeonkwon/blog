@@ -81,37 +81,7 @@
 
   <th:block layout:fragment="script">
     <script th:inline="javascript">
-      const idCheck = document.getElementById('idCheck');
-      const password = document.getElementById('password');
-      const confirmPassword = document.getElementById('password-confirm');
-      const passwordMessage = document.getElementById('password-check-msg');
-      const submitButton = document.getElementById('submit-btn');
 
-      /*비밀번호 일치 여부체크 시작
-      * 비밀번호가 서로 일치하면 버튼 enable
-      * 비밀번호가 서로 일치하지않으면 disable
-      * */
-      confirmPassword.addEventListener('input', () => {
-        if (password.value.trim() === "") {
-          passwordMessage.textContent = "";
-          return; //패스워드를 입력하지 않으면 텍스트가 표시 되지않는다.
-        }
-        if (confirmPassword.value === "") {
-          passwordMessage.textContent = "";
-          return; //패스워드를 입력하지 않으면 텍스트가 표시 되지않는다.
-        }
-        if (confirmPassword.value === password.value) {
-          passwordMessage.textContent = "비밀번호가 일치합니다.";
-          passwordMessage.style.color = "green";
-          submitButton.disabled = false;
-
-        } else {
-          passwordMessage.textContent = "비밀번호가 일치하지 않습니다.";
-          passwordMessage.style.color = "red";
-          submitButton.disabled = true;
-        }
-      });
-      // 비밀번호 체크 끝
 
 
 

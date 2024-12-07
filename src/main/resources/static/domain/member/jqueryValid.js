@@ -22,6 +22,13 @@
           required: true,
           minlength: 6,
           pattern: /^[1-9]*$/,
+        },
+        password: {
+          required : true ,
+        },
+        passwordConfirm: {
+          required : true ,
+          equalTo: "#password"
         }
       },
       messages: {
@@ -44,6 +51,13 @@
           required: '인증번호를 입력해주세요.',
           minlength: '6자리 인증번호를 입력해주세요.',
           pattern: '1 ~ 9 까지의 숫자를 6자리 입력해주세요.'
+        },
+        password: {
+          required: "패스워드를 입력해주세요.",
+        },
+        passwordConfirm: {
+          required : "패스워드 확인을 입력해주세요.",
+          equalTo: "입력하신 패스워드와 일치하지 않습니다. 다시 확인해주세요."
         },
       },
       //에러메세지 위치지정
