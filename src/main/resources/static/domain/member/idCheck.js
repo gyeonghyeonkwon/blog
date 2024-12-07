@@ -1,20 +1,10 @@
 
 //아이디 알림텍스트초기화
-$('#login-id').on('input', function () {
-  const  loginId = $('#login-id').val().trim(); //아이디 입력란
-  const regexId = loginIdPattern; //로그인 아이디 패턴
-  $('#check-duplicate-btn').prop("disabled" , false)
-  if (loginId === '' || loginId.length < 5 || loginId.length < 12 || loginId.length > 5 || loginId.length > 12){
-    $('#id-check-msg').text('');
-    $('#id-ok').css("display" , "none");
-    $('#id-already').css("display" , "none");
-  }
-  if (loginId.length < 5 || loginId.length > 12) {
-    $('#check-duplicate-btn').prop("disabled" , true);
-  }
-  if (!regexId.exec(loginId)) {
-    $('#check-duplicate-btn').prop("disabled" , true)
-  }
+$('#login-id').on('input' , function (){
+    if ($('#id-check-msg') !== '') {
+      $('#id-ok').hide();
+      $('#id-already').hide();
+    }
 });
 //끝
 
@@ -23,8 +13,8 @@ $('#check-duplicate-btn').on('click' , function (){
   const csrfToken = $('meta[name="_csrf"]').attr('content'); // CSRF 토큰 값
   const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); // CSRF 헤더 이름
   const loginId = $('#login-id').val().trim();
-  if (loginId === '') {
-    $("#id-check-msg").text('아이디를 입력하세요!');
+  const isLoginIdValid = $('#login-id').valid();
+  if (!isLoginIdValid) {
     return;
   }
   $.ajax({
@@ -38,14 +28,14 @@ $('#check-duplicate-btn').on('click' , function (){
     success: function (response) {
       console.log(response);
       if (response.data.availability) { //아이디가 중복이라면
-        $('#id-already').css("display" , "inline-block");
-        $('#id-ok').css("display" , "none");
-        $('#submit-btn').prop("disabled" , true);
+        $('#id-already').show(); //아이디중복입니다 텍스트 출력
+        $('#id-ok').hide(); //사용가능한아이디입니다 텍스트 숨김
+        $('#submit-btn').prop("disabled" , true); //submit 비활성화
       }
       else { //아이디가 중복이 아니라면
-        $('#id-ok').css("display" , "inline-block")
-        $('#id-already').css("display" , "none");
-        $('#submit-btn').prop("disabled" , false);
+        $('#id-ok').show() //사용가능한아이디입니다 텍스트 출력
+        $('#id-already').hide(); //아이디중복입니다 텍스트 숨김
+        $('#submit-btn').prop("disabled" , false); //submit 활성화
       }
     },
     error: function () {

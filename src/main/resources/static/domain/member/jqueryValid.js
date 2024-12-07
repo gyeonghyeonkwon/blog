@@ -1,12 +1,12 @@
 const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그인아이디 패턴 , jqueryValid.js 에서도 사용
-// const verificationPattern = /^[0-9]*$/;
+const verificationPattern = /^[1-9]*$/; //인증코드 1 ~ 9 숫자만 입력가능.
 
   jQuery(function (){
     const form = $('#form');
     form.validate({
       rules: {
         loginId: {
-          // required: true,  //id중복확인 ajax 코드랑 충돌되어 주석처리
+          required: true,
           minlength: 5,
           maxlength: 12,
           pattern: loginIdPattern,
@@ -22,7 +22,7 @@ const loginIdPattern = /^[a-z0-9](?=.*[a-z])(?=.*\d)[a-z0-9]{5,12}$/; //로그�
       },
       messages: {
         loginId: {
-          // required: '아이디를입력하세요.',
+          required: '아이디를입력하세요.',
           minlength: '최소 5글자이상입력하세요.',
           maxlength: '최대 12글자이상의 아이디를 생성 할 수없습니다.',
           pattern:'숫자로만 입력할 수 없습니다. 소문자 + 숫자 로만 입력가능합니다.',
