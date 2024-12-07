@@ -28,7 +28,7 @@
             <span class="label-text">이름</span>
           </div>
           <input type="text" id="real-name" name="realName" th:field="*{realName}" placeholder="이름을 입력하세요"
-                 class="input input-bordered w-full max-w-xs" required>
+                 class="input input-bordered w-full max-w-xs" minlength="2" maxlength="4" required>
           <p id="real-name-check-msg"></p>
         </label>
 
@@ -81,9 +81,6 @@
 
   <th:block layout:fragment="script">
     <script th:inline="javascript">
-
-
-
 
     </script>
   </th:block>

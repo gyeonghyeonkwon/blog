@@ -13,6 +13,7 @@
           required: true,
           minlength: 2,
           maxlength: 4,
+          pattern: /[가-힣]/,
         },
         email: {
           required: true,
@@ -42,6 +43,7 @@
           required: '본명을 입력하세요.',
           minlength:'최소 두글자이상 작성해주세요..',
           maxlength: '최대 네글자를 초과할 수 없습니다.',
+          pattern: '한글만 입력가능합니다.',
         },
         email: {
           required: '이메일을 입력해주세요.',
