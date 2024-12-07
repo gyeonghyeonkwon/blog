@@ -11,7 +11,8 @@
         },
         realName: {
           required: true,
-          minlength: 4,
+          minlength: 2,
+          maxlength: 4,
         },
         email: {
           required: true,
@@ -32,7 +33,8 @@
         },
         realName: {
           required: '본명을 입력하세요.',
-          minlength:'본명 4글자 초과할 수 없습니다.',
+          minlength:'최소 두글자이상 작성해주세요..',
+          maxlength: '최대 네글자를 초과할 수 없습니다.',
         },
         email: {
           required: '이메일을 입력해주세요.',

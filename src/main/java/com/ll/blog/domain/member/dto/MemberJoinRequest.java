@@ -20,7 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class MemberJoinRequest {
 
   @NotBlank(message = "본명을 입력해주세요.")
-  @Size(min = 4 , message = "본명은 4자리까지 입력가능합니다.")
+  @Size(min = 2, max = 4 , message = "본명은 4자리까지 입력가능합니다.")
   private String realName;
 
   @NotBlank(message = "로그인 아이디를 입력해주세요.")
