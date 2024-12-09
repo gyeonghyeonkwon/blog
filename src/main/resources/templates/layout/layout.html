@@ -16,16 +16,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css"
           integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <link rel="stylesheet" type="text/css" th:href="@{/domain/member/css/signup.css}">
     <title>blog</title>
 </head>
 <body>
     <th:block layout:fragment="content"></th:block>
     <th:block layout:fragment="script">
-        <script src="/domain/member/jqueryValid.js"></script>
-        <script src="/domain/member/idCheck.js"></script>
-        <script src="/domain/member/emailSend.js"></script>
-        <script src="/domain/member/verificationCode.js"></script>
+        <script src="/domain/member/js/jqueryValid.js"></script>
+        <script src="/domain/member/js/idCheck.js"></script>
+        <script src="/domain/member/js/emailSend.js"></script>
+        <script src="/domain/member/js/verificationCode.js"></script>
     </th:block>
 </body>
 </html>
