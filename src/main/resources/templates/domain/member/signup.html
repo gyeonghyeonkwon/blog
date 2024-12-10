@@ -15,11 +15,11 @@
           <div class="flex">
             <input type="text" id="login-id" name="loginId" th:field="*{loginId}" placeholder="아이디를 입력하세요"
                    class="input input-bordered w-full max-w-xs mr-1">
-            <button class="btn btn-active" id="check-duplicate-btn" type="button">중복검사</button>
+            <button class="btn btn-active" id="check-duplicate-btn" type="button" value="click">중복검사</button>
           </div>
           <p id="id-check-msg"></p>
-          <span id="id-ok" style="color: green; display: none">사용가능한아이디입니다.</span>
-          <span id="id-already" style="color: red; display: none">다른아이디를사용해주세요.</span>
+          <p id="id-ok" style="color: green; display: none">사용가능한아이디입니다.</p>
+          <p id="id-already" style="color: red; display: none">다른아이디를사용해주세요.</p>
         </label>
 
         <!-- 이름 -->
@@ -59,9 +59,10 @@
           </div>
           <input type="password" id="password" name="password" th:field="*{password}" placeholder="비밀번호를 입력하세요"
                  class="input input-bordered w-full max-w-xs" required>
+          <div><p id="password-check1-msg"></p></div>
           <div class="show-password">
-            <input type="checkbox" checked="checked" data-target="#password" class="checkbox checkbox-sm" />
-            <p>비밀번호 표시</p>
+            <input type="checkbox"  data-target="#password" class="checkbox checkbox-sm" />
+            <span>비밀번호 표시</span>
           </div>
         </label>
         <!-- 비밀번호 확인 -->
@@ -71,11 +72,11 @@
           </div>
           <input type="password" id="password-confirm" name="passwordConfirm" th:field="*{passwordConfirm}"
                  placeholder="비밀번호를 다시 입력하세요" class="input input-bordered w-full max-w-xs" required>
+          <p id="password-check2-msg"></p>
           <div class="show-password">
-            <input type="checkbox" checked="checked" data-target="#password-confirm" class="checkbox checkbox-sm" />
-            <p>비밀번호 표시</p>
+            <input type="checkbox"  data-target="#password-confirm" class="checkbox checkbox-sm" />
+            <span>비밀번호 표시</span>
           </div>
-          <p id="password-check-msg"></p>
         </label>
         <!-- 회원가입 버튼 -->
         <div class="form-control mt-6">
@@ -87,11 +88,18 @@
 
   <th:block layout:fragment="script">
     <script th:inline="javascript">
-      $('.checkbox').prop("checked", false); //checkbox 비활성화
+      //중복체크를 클릭해야만 id-ok 메세지가보인다. id-ok 가 보이지 않으면 중복체크를 하지않았다는것이다.
+      $('#submit-btn').on('click' , function () {
+        if ($('#id-ok').css('display') === 'none') {
+          alert("아이디 중복검사를 진행해주세요.");
+          event.preventDefault();
+        }
+      });
 
+      //비밀번호 표시
       $(`.checkbox`).on("click", function () {
         const target = $(this).data("target");
-        const checked = $(this).is(":checked");
+        const checked = $(this).is(":checked"); //체크박스 체크여부
         const password = $(target);
         if (checked) {
           // 체크박스가 체크되어 있으면 type을 'text'로 변경
@@ -101,7 +109,6 @@
           password.attr("type", "password");
         }
       });
-
     </script>
   </th:block>
 </div>

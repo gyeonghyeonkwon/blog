@@ -8,8 +8,10 @@ $('#login-id').on('input' , function (){
 });
 //끝
 
+let idCheckCount = 0;
 // 아이디중복확인 시작
 $('#check-duplicate-btn').on('click' , function (){
+  idCheckCount++; //아이디 중복검사 체크
   const csrfToken = $('meta[name="_csrf"]').attr('content'); // CSRF 토큰 값
   const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); // CSRF 헤더 이름
   const loginId = $('#login-id').val().trim();
@@ -44,3 +46,4 @@ $('#check-duplicate-btn').on('click' , function (){
   });
 });
 // 아이디중복확인 끝
+

@@ -64,21 +64,43 @@
       },
       //에러메세지 위치지정
       errorPlacement: function (error, element) {
-        if (element.attr("id") === "login-id") { //
-          // "loginId" 필드에만 오류 메시지를 특정 위치에 삽입
-          error.appendTo("#id-check-msg");
-        }
-        else if (element.attr("id") === "email") {
-          error.appendTo("#email-check-msg");
-        }
-        else if (element.attr("id") === "verification-code") {
-          error.appendTo("#verification-code-msg");
-        }
-        else {
-          // 다른 필드는 기본 동작
-          error.insertAfter(element);
+        switch (element.attr("id")) {
+          case "login-id": //input id값
+            error.appendTo("#id-check-msg"); //에러메세지 p 태그 id값
+            return;
+
+          case "real-name":
+            error.appendTo("#real-name-check-msg");
+            return;
+
+          case "email":
+            error.appendTo("#email-check-msg");
+            return;
+
+          case "verification-code":
+            error.appendTo("#verification-code-msg");
+            return;
+
+          case "password":
+            error.appendTo("#password-check1-msg");
+            return;
+
+          case "password-confirm":
+            error.appendTo("#password-check2-msg");
+            return;
+
+          default :
+            error.insertAfter(element);
         }
       },
+      highlight: function (element) {
+        // 에러 발생 시 인풋에 클래스 추가
+        $(element).addClass("input-invalid");
+      },
+      unhighlight: function (element) {
+        // 에러가 해결되면 클래스 제거
+        $(element).removeClass("input-invalid");
+      }
     });
   });
 

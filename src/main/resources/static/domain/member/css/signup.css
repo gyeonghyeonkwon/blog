@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'LeeSeoyun';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .show-password {
   display: flex;
   margin-top: 3%;
@@ -5,4 +12,16 @@
 }
 .checkbox {
   margin-right: 5px;
+  width: 18px; /* 체크박스 너비 */
+  height: 18px; /* 체크박스 높이 */
+}
+p {
+  color: red;
+  font-family: 'LeeSeoyun';
+}
+.input-invalid {
+  border: 2px solid red; /* 인풋 필드의 테두리를 빨간색으로 표시 */
+}
+#password-check1-msg {
+  text-align: justify;
 }
