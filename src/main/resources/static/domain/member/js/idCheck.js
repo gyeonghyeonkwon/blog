@@ -14,7 +14,7 @@ function hideIdAllowedMessage() {
   }
 }
 
-//아이디중복검사여부 텍스트 출력
+//아이디중복검사여부 텍스트 출력 , 입력란에 아이디가 바뀔때마다 출력된다.
 function duplicateCheckMessage() {
   if ($('#login-id').valid()) {
     $('#duplicate-check-message').show(); //로그인유효성검사 통과할떄 실행
@@ -33,10 +33,9 @@ $('#check-duplicate-btn').on('click' , function (){
   if (!isLoginIdValid) { //만약 로그인아이디가 공백이나 valid 조건에 맞지않은상태로 요청되었다고하면  isisLoginIdValid 가 false 이므로 false 면 종료된다.
     return;
   }
-
   $.ajax({
     type: 'POST',
-    url: "/api/member/loginIdCheck", //Controller 주소
+    url: "/api/member/check-login-id", //Controller 주소
     contentType: 'application/json', // JSON 데이터로 전송
     data: JSON.stringify({loginId: loginId}),
     beforeSend: function (xhr) {

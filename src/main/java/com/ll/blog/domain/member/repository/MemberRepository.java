@@ -1,6 +1,7 @@
 package com.ll.blog.domain.member.repository;
 
 import com.ll.blog.domain.member.entity.Member;
+import jakarta.validation.constraints.Email;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
   boolean existsByLoginId(String loginId);
+
+  boolean existsByEmail(String email);
 }

@@ -10,7 +10,7 @@ $('#send-code-btn').on('click', function () {
   }
   $.ajax({
     type: 'POST',
-    url: '/api/member/mailSend',
+    url: '/api/member/mail-send',
     contentType: 'application/json',
     data: JSON.stringify({email: email}), //데이터 요청
     beforeSend: function (xhr) {

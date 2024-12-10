@@ -1,5 +1,6 @@
 package com.ll.blog.domain.member.api.controller;
 
+import com.ll.blog.domain.Email.dto.EmailRequest;
 import com.ll.blog.domain.global.ResponseData;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckResponse;
@@ -19,12 +20,19 @@ public class ApiMemberController {
 
   private final MemberService memberService;
 
-  @PostMapping("/loginIdCheck")
+  @PostMapping("/check-login-id")
   public ResponseEntity loginIdCheck(@RequestBody @Valid JoinLoginIdCheckRequest joinLoginIdCheckRequest) {
     boolean isLoginIdCheck = memberService.isCheckLoginId(joinLoginIdCheckRequest.getLoginId());
-    String idCheck = isLoginIdCheck ? "아이디가 중복입니다." : "아이디사용가능합니다.";
+    String idCheck = isLoginIdCheck ? "입력하신 아이디를 사용할 수 없습니다." : "아이디사용가능합니다.";
     return new ResponseEntity<>(ResponseData.res(200 , idCheck,
         new JoinLoginIdCheckResponse(joinLoginIdCheckRequest.getLoginId(), isLoginIdCheck)) , HttpStatus.OK);
+  }
+
+  @PostMapping("/check-email")
+  public ResponseEntity checkEmail (@RequestBody @Valid EmailRequest emailRequest) {
+    boolean isEmailCheck = memberService.isCheckEmail(emailRequest.getEmail());
+    String emailCheck = isEmailCheck ? "입력하신 이메일을 사용할 수 없습니다," : "사용가능한이메일입니다.";
+    return new ResponseEntity(ResponseData.res(200 , emailCheck , isEmailCheck) , HttpStatus.OK);
   }
 
   @PostMapping("/signup")

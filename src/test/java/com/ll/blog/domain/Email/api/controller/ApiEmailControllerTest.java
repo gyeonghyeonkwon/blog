@@ -9,6 +9,7 @@ import com.ll.blog.domain.global.redis.service.RedisService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -41,7 +42,7 @@ class ApiEmailControllerTest {
   @Test
   @DisplayName("메일전송 테스트")
   void mailSend() throws Exception {
-    String api = "/api/member/mailSend";
+    String api = "/api/member/mail-send";
     String email = "kyanghyang12@naver.com";
     String requestBody = objectMapper.writeValueAsString(
         new EmailRequest(email)); //이메일객체 -> json 직렬화
@@ -61,7 +62,7 @@ class ApiEmailControllerTest {
   @Test
   @DisplayName("인증번호체크 테스트")
   void mailCode() throws Exception {
-    String api = "/api/member/verificationCode";
+    String api = "/api/member/verification-code";
     String email = "kyanghyang12@naver.com";
     String value = redisService.getData(email);
 

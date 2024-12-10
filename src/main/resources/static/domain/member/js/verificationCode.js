@@ -26,7 +26,7 @@ $('#verification-code').on('input' , function () {
   }
   $.ajax({
     type: 'POST',
-    url: '/api/member/verificationCode',
+    url: '/api/member/verification-code',
     contentType: 'application/json',
     data: JSON.stringify(requestData), //데이터 요청
     beforeSend: function (xhr) {

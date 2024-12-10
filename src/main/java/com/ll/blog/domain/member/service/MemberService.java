@@ -20,6 +20,9 @@ public class MemberService {
     if (isCheckLoginId(memberJoinRequest.getLoginId())) {
       throw new IllegalArgumentException("아이디가 존재합니다.");
     }
+    if (isCheckEmail(memberJoinRequest.getEmail())) {
+      throw new IllegalArgumentException("이메일이 존재합니다.");
+    }
     if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
       throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
     }
@@ -32,5 +35,9 @@ public class MemberService {
 
   public boolean isCheckLoginId(final String loginId) {
     return memberRepository.existsByLoginId(loginId);
+  }
+
+  public boolean isCheckEmail(final String email) {
+    return memberRepository.existsByEmail(email);
   }
 }
