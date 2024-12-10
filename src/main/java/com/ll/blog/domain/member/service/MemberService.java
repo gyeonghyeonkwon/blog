@@ -16,9 +16,9 @@ public class MemberService {
   private final EmailService emailService;
 
   @Transactional
-  public void signUp(final MemberJoinRequest memberJoinRequest) {
+  public Long signUp(final MemberJoinRequest memberJoinRequest) {
     if (isCheckLoginId(memberJoinRequest.getLoginId())) {
-       throw new IllegalArgumentException("아이디가 존재합니다.");
+      throw new IllegalArgumentException("아이디가 존재합니다.");
     }
     if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
       throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
@@ -27,7 +27,7 @@ public class MemberService {
         memberJoinRequest.getVerificationCode())) {
       throw new NullPointerException("인증코드가 일치하지않습니다.");
     }
-    memberRepository.save(memberJoinRequest.toEntity());
+    return memberRepository.save(memberJoinRequest.toEntity()).getMemberId();
   }
 
   public boolean isCheckLoginId(final String loginId) {
