@@ -18,6 +18,7 @@
             <button class="btn btn-active" id="check-duplicate-btn" type="button" value="click">중복검사</button>
           </div>
           <p id="id-check-msg"></p>
+          <p id="duplicate-check-message" style="color: red; display: none">아이디중복 검사를 실시하세요.</p>
           <p id="id-ok" style="color: green; display: none">사용가능한아이디입니다.</p>
           <p id="id-already" style="color: red; display: none">다른아이디를사용해주세요.</p>
         </label>
@@ -89,65 +90,7 @@
   <th:block layout:fragment="script">
     <script th:inline="javascript">
 
-      $('#submit-btn').on('click', function () {
-        const csrfToken = $('meta[name="_csrf"]').attr('content'); //csrf Token
-        const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); //csrf Token
-        const loginId = $('#login-id').val();
-        const realName = $('#real-name').val();
-        const email = $('#email').val();
-        const verificationCode = $('#verification-code').val();
-        const password = $('#password').val();
-        const passwordConfirm = $('#password-confirm').val();
 
-        const requestData = {
-            loginId : loginId ,
-            realName : realName ,
-            email : email ,
-            verificationCode : verificationCode ,
-            password : password ,
-            passwordConfirm : passwordConfirm
-        };
-        if (!$('#form').valid()) { //form 유효성검사
-         return;
-        }
-        //중복체크를 클릭해야만 id-ok 메세지가보인다. id-ok 가 보이지 않으면 중복체크를 하지않았다는것이다.
-        if ($('#id-ok').css('display') === 'none') {
-          alert('중복체크를진행해주세요.')
-          return;
-        }
-        $.ajax({
-          type: 'POST',
-          url: '/api/member/signup',
-          contentType: 'application/json',
-          data: JSON.stringify(requestData), //데이터 요청
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader(csrfHeader, csrfToken);
-          },
-          success: function (data) {
-            console.log(data);
-            location.href = '/member/login';
-            alert('회원가입에 성공하였습니다. 로그인을 진행해주세요.');
-          },
-          error: function () {
-            alert("회원가입이 실패하였습니다.");
-          }
-        });
-      });
-
-
-      //비밀번호 표시
-      $(`.checkbox`).on("click", function () {
-        const target = $(this).data("target");
-        const checked = $(this).is(":checked"); //체크박스 체크여부
-        const password = $(target);
-        if (checked) {
-          // 체크박스가 체크되어 있으면 type을 'text'로 변경
-          password.attr("type", "text");
-        } else {
-          // 체크박스가 체크되어 있지 않으면 type을 'password'로 변경
-          password.attr("type", "password");
-        }
-      });
     </script>
   </th:block>
 </div>

@@ -15,13 +15,11 @@
   width: 18px; /* 체크박스 너비 */
   height: 18px; /* 체크박스 높이 */
 }
-p {
+p { /*에러폰트*/
   color: red;
   font-family: 'LeeSeoyun';
 }
 .input-invalid {
   border: 2px solid red; /* 인풋 필드의 테두리를 빨간색으로 표시 */
 }
-#password-check1-msg {
-  text-align: justify;
-}
+
