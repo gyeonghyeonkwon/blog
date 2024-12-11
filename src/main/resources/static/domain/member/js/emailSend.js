@@ -1,11 +1,24 @@
 
+function getCsrfHeader() {
+  const csrfToken = $('meta[name="_csrf"]').attr('content');
+  const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+  return {csrfToken , csrfHeader};
+};
+
+function getEmail() {
+  return  $('#email').val();
+};
+
+function isEmailValidation() {
+  return $(`#email`).valid();
+};
 //이메일 인증번호 전송 시작
 $('#send-code-btn').on('click', function () {
-  const csrfToken = $('meta[name="_csrf"]').attr('content'); //csrf Token
-  const csrfHeader = $('meta[name="_csrf_header"]').attr('content'); //csrf Token
-  const email = $('#email').val().trim();
-  const isEmailValid = $(`#email`).valid(); //이메일이 맞는지 , 아닌지 확인
-  if (!isEmailValid) { //이메일이 valid 조건에 맞지않을경우에 isEmailValid 는 false 이므로 종료
+  const csrfHeader = getCsrfHeader(); //csrf Token
+  const email = getEmail();
+  const isEmailValid = isEmailValidation();
+
+  if (!isEmailValid) {
     return;
   }
   $.ajax({
@@ -14,7 +27,7 @@ $('#send-code-btn').on('click', function () {
     contentType: 'application/json',
     data: JSON.stringify({email: email}), //데이터 요청
     beforeSend: function (xhr) {
-      xhr.setRequestHeader(csrfHeader, csrfToken); // CSRF 헤더 설정
+      xhr.setRequestHeader(csrfHeader.csrfHeader, csrfHeader.csrfToken); // CSRF 헤더 설정
     },
     success: function (data) {
       console.log(data);

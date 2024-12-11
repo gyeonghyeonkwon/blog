@@ -20,6 +20,13 @@ public class ApiEmailController {
 
   private final EmailService emailService;
 
+  @PostMapping("/check-email")
+  public ResponseEntity checkEmail (@RequestBody @Valid EmailRequest emailRequest) {
+    boolean isEmailCheck = emailService.isCheckEmail(emailRequest.getEmail());
+    String emailCheck = isEmailCheck ? "입력하신 이메일을 사용할 수 없습니다," : "사용가능한이메일입니다.";
+    return new ResponseEntity(ResponseData.res(200 , emailCheck , isEmailCheck) , HttpStatus.OK);
+  }
+
   @PostMapping("/mail-send")
   public ResponseEntity mailSend(@RequestBody @Valid EmailRequest emailRequest) {
     String verificationCode = emailService.joinEmail(emailRequest.getEmail());

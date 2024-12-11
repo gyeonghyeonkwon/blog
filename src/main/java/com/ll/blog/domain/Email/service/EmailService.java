@@ -1,6 +1,8 @@
 package com.ll.blog.domain.Email.service;
 
 import com.ll.blog.domain.global.redis.service.RedisService;
+import com.ll.blog.domain.member.repository.MemberRepository;
+import com.ll.blog.domain.member.service.MemberService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class EmailService {
   private final JavaMailSender javaMailSender;
   private final RedisService redisService;
   private final SpringTemplateEngine templateEngine;
+  private final MemberRepository memberRepository;
 
   @Value("${spring.mail.sender-email}")
   private String senderEmail; //보내는사람 이메일
@@ -39,6 +42,9 @@ public class EmailService {
 
   //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성합니다.
   public String joinEmail(String email) {
+    if (isCheckEmail(email)) {
+      throw new IllegalArgumentException("이미 사용중인 이메일이므로 인증코드를 전송할 수 없습니다.");
+    }
     int randomValue = randomValueGeneration(); //인증번호 6자리 생성
     String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목
     String content = htmlContent(randomValue); //html 렌더링
@@ -78,5 +84,9 @@ public class EmailService {
       return false; //value 값이 null 이면 false 반환
     }
     return value.equals(verificationCode); //value 값 일치여부 , 일치하면 true , 일치하지않으면 false 반환
+  }
+  //이메일 중복 여부
+  public boolean isCheckEmail(final String email) {
+    return memberRepository.existsByEmail(email);
   }
 }
