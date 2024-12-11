@@ -36,9 +36,9 @@ public class ApiEmailController {
 
   @PostMapping("/verification-code")
   public ResponseEntity mailCode(@RequestBody @Valid EmailCodeCheckRequest emailCodeCheckRequest) {
-    Boolean codeCheck = emailService.verificationCodeCheck(emailCodeCheckRequest.getEmail(),
+    Boolean isCodeCheck = emailService.verificationCodeCheck(emailCodeCheckRequest.getEmail(),
         emailCodeCheckRequest.getVerificationCode());
-    String isSuccess = codeCheck ? "인증에성공하였습니다." : "인증에실패하였습니다.";
-      return new ResponseEntity<>(ResponseData.res(200, isSuccess , codeCheck), HttpStatus.OK);
+    String isSuccess = isCodeCheck ? "인증에성공하였습니다." : "인증에실패하였습니다.";
+      return new ResponseEntity<>(ResponseData.res(200, isSuccess , isCodeCheck), HttpStatus.OK);
   }
 }
