@@ -21,6 +21,7 @@ $('#send-code-btn').on('click', function () {
   if (!isEmailValid) {
     return;
   }
+
   $.ajax({
     type: 'POST',
     url: '/api/member/mail-send',

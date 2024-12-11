@@ -39,6 +39,7 @@ public class MemberJoinRequest {
 
   @NotBlank(message = "이메일은 필수항목입니다.")
   @Email
+  @Pattern(regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$" , message = "정확한 이메일을 입력해주세요.")
   private String email;
 
   @NotBlank(message = "인증코드를 입력해주세요.")

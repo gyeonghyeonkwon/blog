@@ -3,6 +3,7 @@ package com.ll.blog.domain.member.entity;
 import com.ll.blog.domain.global.jpa.config.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import javax.security.sasl.AuthorizeCallback;

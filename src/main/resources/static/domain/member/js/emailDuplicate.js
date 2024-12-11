@@ -6,7 +6,6 @@ $('#email').on('input' , function () {
   const csrfHeader = getCsrfHeader();
   const isEmailValid = isEmailValidation();
   if ($('#email-check-msg') !== '') {
-    console.log($('#email-check-msg') !== '')
     $('#email-ok').hide();
     $('#email-already').hide();
   }
@@ -29,14 +28,13 @@ $('#email').on('input' , function () {
       success: function (response) {
         console.log(response);
         if (response.data) {
-          console.log(response.data)
           $('#email-already').show();
           $('#email-ok').hide();
           $('#send-code-btn').prop('disabled' , true);
         }
         else {
-          $('#email-ok').show();
           $('#email-already').hide();
+          $('#email-ok').show();
           $('#send-code-btn').prop('disabled' , false);
         }
       },

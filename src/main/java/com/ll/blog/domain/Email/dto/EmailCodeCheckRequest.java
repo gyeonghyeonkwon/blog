@@ -17,6 +17,7 @@ public class EmailCodeCheckRequest {
 
   @Email
   @NotBlank(message = "이메일을 입력해주세요.")
+  @Pattern(regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$" , message = "정확한 이메일을 입력해주세요.")
   private String email;
 
   @Size(min = 6 , message = "6자리의 숫자를 입력해주세요.")

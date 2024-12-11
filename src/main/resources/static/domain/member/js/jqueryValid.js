@@ -18,6 +18,7 @@
         email: {
           required: true,
           email: true,
+          pattern: /^[a-zA-Z0-9_+&*-]+(?:\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$/,
         },
         verificationCode: {
           required: true,
@@ -48,6 +49,7 @@
         email: {
           required: '이메일을 입력해주세요.',
           email: '올바른 이메일 형식으로 입력하세요.',
+          pattern: '유효하지 않은 이메일 주소입니다.'
         },
         verificationCode: {
           required: '인증번호를 입력해주세요.',
