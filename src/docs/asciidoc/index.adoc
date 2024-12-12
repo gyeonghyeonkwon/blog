@@ -1,0 +1,9 @@
+1. 인증코드 전송
+
+=== Request ===
+include::{snippets}/email-send/http-request.adoc[]
+
+=== Response ===
+include::{snippets}/email-send/http-response.adoc[]
+
+include::{snippets}/email-send/response-body.adoc[]

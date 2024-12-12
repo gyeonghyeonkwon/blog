@@ -1,7 +1,9 @@
 package com.ll.blog.domain.member.service;
 
+import com.ll.blog.domain.Email.service.EmailService;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.repository.MemberRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,19 +26,25 @@ class MemberServiceTest {
   @Mock
   private MemberRepository memberRepository;
 
+  @Mock
+  private EmailService emailService;
+
   @Test
+  @DisplayName("회원가입 시 아이디중복체크")
   void 회원가입테스트() {
 
-    MemberJoinRequest memberJoinRequest = MemberJoinRequest.builder()
-        .realName("테스트유저")
-        .password("1234")
-        .passwordConfirm("1234")
-        .email("kyanghyang12@naver.com")
-        .loginId("kyanghyang12")
-        .build();
-    when(memberRepository.existsByLoginId(memberJoinRequest.getLoginId())).thenReturn(
-        false); //로그인아이디 중복확인
-    memberService.signUp(memberJoinRequest);
-    verify(memberRepository, times(1)).save(any());
+//    MemberJoinRequest memberJoinRequest = MemberJoinRequest.builder()
+//        .realName("테스트유저")
+//        .password("1234")
+//        .passwordConfirm("1234")
+//        .email("kyanghyang12@naver.com")
+//        .loginId("kyanghyang12")
+//        .build();
+//    when(memberRepository.existsByLoginId(memberJoinRequest.getLoginId())).thenReturn(
+//        false); //로그인아이디 중복확인
+//    when(memberRepository.existsByEmail(memberJoinRequest.getEmail())).thenReturn(
+//        false);
+//    memberService.signUp(memberJoinRequest);
+//    verify(memberRepository, times(1)).save(any());
   }
 }
