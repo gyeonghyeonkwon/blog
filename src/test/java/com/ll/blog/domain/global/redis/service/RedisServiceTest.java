@@ -22,7 +22,7 @@ class RedisServiceTest {
     String value = "123456";
     long duration = 60L;
 
-    redisService.setDataExpire(key, value, duration);
+    redisService.setDataExpire(key, value, duration); // 레디스에 직접 데이터를 넣는다.
     String redisValue = redisService.getData(key);
     assertThat(redisValue).isEqualTo(value);
     System.out.println("redis Value값 = " + redisValue);

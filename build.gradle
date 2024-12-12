@@ -48,10 +48,12 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'  //(4)
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor' // (3)
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation "org.testcontainers:testcontainers:1.19.0" //redis test
+    testImplementation "org.testcontainers:junit-jupiter:1.19.0" // 테스트컨테이너추가
 }
 
 ext {
-    set('snippetsDir', file("build/generated-snippets")) // (5)
+    set('snippetsDir', file("build/generated-snippets")) // (5) 테스트성공시
     // 생략
 }
 
@@ -65,18 +67,18 @@ asciidoctor { //(7)
     configurations 'asciidoctorExt' //(9)
     dependsOn test //(10)
 
-    sources{ //index.adoc 이외 다른 adoc 는 html로 생성하지않음
+    sources{ //(11) index.adoc 이외 다른 adoc 는 html로 생성하지않음
         include("**/index.adoc","**/common/*.adoc")
     }
     baseDirFollowsSourceFile()
 }
 
-// static/docs 폴더 비우기
+// (12) static/docs 폴더 비우기
 asciidoctor.doFirst {
     delete file('src/main/resources/static/docs')
 }
 
-task copyDocument (type:Copy) {
+task copyDocument (type:Copy) { //(13)
     dependsOn asciidoctor
     from file("build/docs/asciidoc") //여기에 위치한 html파일을
     into file("src/main/resources/static/docs") //해당 경로로 복사한다.
