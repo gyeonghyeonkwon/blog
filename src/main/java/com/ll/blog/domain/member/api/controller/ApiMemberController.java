@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class ApiMemberController {
 
   private final MemberService memberService;
-  private final EmailService emailService;
 
   @PostMapping("/check-login-id")
   public ResponseEntity loginIdCheck(@RequestBody @Valid JoinLoginIdCheckRequest joinLoginIdCheckRequest) {
