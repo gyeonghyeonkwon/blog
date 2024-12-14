@@ -12,6 +12,7 @@ import com.ll.blog.domain.global.redis.service.RedisService;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 import java.util.Arrays;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,7 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 @ActiveProfiles("test")
 @Import(RedisTestContainerConfig.class)
+@Transactional
 class EmailServiceTest {
 
   @Autowired

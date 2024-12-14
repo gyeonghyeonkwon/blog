@@ -40,5 +40,6 @@ public class ApiEmailController {
         emailCodeCheckRequest.getVerificationCode());
     String isSuccess = isCodeCheck ? "인증에성공하였습니다." : "인증에실패하였습니다.";
       return new ResponseEntity<>(ResponseData.res(200, isSuccess , isCodeCheck), HttpStatus.OK);
+
   }
 }
