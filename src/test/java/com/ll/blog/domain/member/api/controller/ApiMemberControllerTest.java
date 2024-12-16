@@ -1,10 +1,5 @@
 package com.ll.blog.domain.member.api.controller;
 
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.removeHeaders;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -46,15 +41,14 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
         .andExpect((jsonPath("$.responseMessage").value("아이디사용가능합니다.")))
         .andExpect(jsonPath("$.data.loginId").value("example1"))
         .andExpect(jsonPath("$.data.availability").value(false))
-        .andDo(document("{class-name}/{method-name}", //테스트클래스이름 , 테스트메소드이름의 패키지가 만들어진다. 패키지안에 스니펫들이만들어진다.
-            preprocessRequest(removeHeaders("Host" , "Content-Length") , prettyPrint()),
-            preprocessResponse(prettyPrint()),
-            responseFields(
-                fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태코드"),
-                fieldWithPath("responseMessage").type(JsonFieldType.STRING).description("응답메세지"),
-                fieldWithPath("data.loginId").type(JsonFieldType.STRING).description("로그인아이디"),
-                fieldWithPath("data.availability").type(JsonFieldType.BOOLEAN).description("중복여부")
-            )));
+        .andDo(
+            restDocs.document(
+                responseFields(
+                    fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태코드"),
+                    fieldWithPath("responseMessage").type(JsonFieldType.STRING).description("응답메세지"),
+                    fieldWithPath("data.loginId").type(JsonFieldType.STRING).description("로그인아이디"),
+                    fieldWithPath("data.availability").type(JsonFieldType.BOOLEAN).description("중복여부")
+                )));
   }
 
   @Test
