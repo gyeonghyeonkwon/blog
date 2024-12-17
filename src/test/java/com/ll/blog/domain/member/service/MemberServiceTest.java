@@ -6,6 +6,7 @@ import com.ll.blog.domain.global.redis.config.RedisTestContainerConfig;
 import com.ll.blog.domain.global.redis.service.RedisService;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
+import com.ll.blog.domain.member.dto.MemberJoinResponse;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -76,7 +77,7 @@ class MemberServiceTest {
         .password("123")
         .passwordConfirm("123")
         .build();
-    Long saveId = memberService.signUp(request);
-    assertThat(saveId).isEqualTo(2L);
+    MemberJoinResponse memberJoinResponse = memberService.signUp(request);
+    assertThat(memberJoinResponse.getMemberId()).isEqualTo(2L);
   }
 }

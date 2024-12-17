@@ -4,33 +4,28 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.ll.blog.domain.global.redis.config.RedisTestContainerConfig;
-import com.ll.blog.domain.global.redis.service.RedisService;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.restdocs.RestDocsTestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.ResultActions;
 
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Import(RedisTestContainerConfig.class)
 @AutoConfigureRestDocs
 @SpringBootTest
 class ApiMemberControllerTest extends RestDocsTestSupport {
-
-  @Autowired
-  private RedisService redisService;
 
   @Test
   @DisplayName("로그인중복체크테스트")
@@ -43,6 +38,7 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
     //request
     ResultActions actions = mockMvc.perform(post(api)
         .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .characterEncoding("utf-8")
         .content(requestBody)); //loginId 를 json으로 변환하여 요청
 
     //response
@@ -76,15 +72,22 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
     String verificationCode = "123456";
     String password = "123";
     String passwordConfirm = "123";
-    long duration = 60L;
-    String requestBody = objectMapper.writeValueAsString(
-        new MemberJoinRequest(loginId , realName , email ,verificationCode, password , passwordConfirm));
 
-    redisService.setDataExpire(email, verificationCode, duration);
+    String requestBody = objectMapper.writeValueAsString(
+        new MemberJoinRequest(realName , loginId , password ,passwordConfirm, email , verificationCode));
 
     //request
     ResultActions actions = mockMvc.perform(post(api)
         .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .characterEncoding("utf-8")
         .content(requestBody));
+
+    //response
+    actions.andExpect(status().isOk())
+        .andExpect(jsonPath("$.statusCode").value("201"))
+        .andExpect((jsonPath("$.responseMessage").value("회원가입성공")))
+//        .andExpect(jsonPath("$.data.memberId").value(1))
+//        .andExpect(jsonPath("$.data.availability").value(false))
+        .andDo(print());
   }
 }
