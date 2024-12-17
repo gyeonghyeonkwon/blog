@@ -1,17 +1,22 @@
 package com.ll.blog.domain.member.dto;
 
-import lombok.AllArgsConstructor;
+import com.ll.blog.domain.member.entity.Member;
+import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class MemberJoinResponse {
-    private Long memberId;
-    private String realName;
-    private String loginId;
-    private String email;
+public class MemberJoinResponse{
+    private final Long memberId;
+    private final String realName;
+    private final String loginId;
+    private final String email;
+    private final LocalDateTime createDateTime;
+
+    public MemberJoinResponse(Member member) {
+        this.memberId = member.getMemberId();
+        this.realName = member.getRealName();
+        this.loginId = member.getLoginId();
+        this.email = member.getEmail();
+        this.createDateTime = member.getCreateDate();
+    }
 }

@@ -7,21 +7,30 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.ll.blog.domain.global.redis.config.RedisTestContainerConfig;
+import com.ll.blog.domain.global.redis.service.RedisService;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
+import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.restdocs.RestDocsTestSupport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 @AutoConfigureMockMvc
+@Import(RedisTestContainerConfig.class)
 @AutoConfigureRestDocs
 @SpringBootTest
 class ApiMemberControllerTest extends RestDocsTestSupport {
+
+  @Autowired
+  private RedisService redisService;
 
   @Test
   @DisplayName("로그인중복체크테스트")
@@ -45,9 +54,9 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
         .andDo(
               restDocs.document(
                   requestFields(
-                      fieldWithPath("loginId").type(JsonFieldType.STRING).description("요청아이디")
+                      fieldWithPath("loginId").type(JsonFieldType.STRING).description("로그인 아이디")
 //                          .attributes(key("constraints").value("2자 이상 4자 이하 형식"))
-                          .attributes(constraints("2자 이상 4자 이하 형식"))
+                          .attributes(constraints("5자 이상 12자 미만 , 영 소.대문자 + 숫자조합"))
                   ),
                 responseFields(
                     fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태코드"),
@@ -59,7 +68,23 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
 
   @Test
   @DisplayName("회원가입테스트")
-  void signUp() {
+  void signUp() throws Exception{
+    String api = "/api/member/signup";
+    String loginId = "example1";
+    String realName = "홍길동";
+    String email = "example@example.com";
+    String verificationCode = "123456";
+    String password = "123";
+    String passwordConfirm = "123";
+    long duration = 60L;
+    String requestBody = objectMapper.writeValueAsString(
+        new MemberJoinRequest(loginId , realName , email ,verificationCode, password , passwordConfirm));
 
+    redisService.setDataExpire(email, verificationCode, duration);
+
+    //request
+    ResultActions actions = mockMvc.perform(post(api)
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .content(requestBody));
   }
 }

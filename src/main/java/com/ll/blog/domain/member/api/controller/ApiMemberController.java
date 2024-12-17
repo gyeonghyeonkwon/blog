@@ -1,7 +1,5 @@
 package com.ll.blog.domain.member.api.controller;
 
-import com.ll.blog.domain.Email.dto.EmailRequest;
-import com.ll.blog.domain.Email.service.EmailService;
 import com.ll.blog.domain.global.ResponseData;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckResponse;
@@ -12,7 +10,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,11 +32,8 @@ public class ApiMemberController {
 
   @PostMapping("/signup")
   public ResponseEntity signUp(@RequestBody @Valid MemberJoinRequest memberJoinRequest) {
-    Long memberJoinId =  memberService.signUp(memberJoinRequest);
-    MemberJoinResponse memberJoinResponse = new MemberJoinResponse(memberJoinId,
-        memberJoinRequest.getRealName(),
-        memberJoinRequest.getLoginId(), memberJoinRequest.getEmail());
-    return new ResponseEntity(ResponseData.res(200 , "회원가입성공" , memberJoinResponse) ,
+    MemberJoinResponse memberJoinResponse = memberService.signUp(memberJoinRequest);
+    return new ResponseEntity(ResponseData.res(201 , "회원가입성공" , memberJoinResponse) ,
         HttpStatus.OK);
   }
 }
