@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,8 +47,6 @@ public class MemberJoinRequest {
   @Size(min = 6 , message = "6자리의 숫자를 입력해주세요.")
   @Pattern(regexp = "^[1-9]*$" , message = "1~9 사이의 숫자를입력해주세요.")
   private String verificationCode; //인증코드
-
-  private LocalDateTime createDateTime;
 
   public Member toEntity() {
     BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
