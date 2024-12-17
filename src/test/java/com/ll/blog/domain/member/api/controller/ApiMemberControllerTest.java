@@ -1,6 +1,7 @@
 package com.ll.blog.domain.member.api.controller;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -42,7 +43,12 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
         .andExpect(jsonPath("$.data.loginId").value("example1"))
         .andExpect(jsonPath("$.data.availability").value(false))
         .andDo(
-            restDocs.document(
+              restDocs.document(
+                  requestFields(
+                      fieldWithPath("loginId").type(JsonFieldType.STRING).description("요청아이디")
+//                          .attributes(key("constraints").value("2자 이상 4자 이하 형식"))
+                          .attributes(constraints("2자 이상 4자 이하 형식"))
+                  ),
                 responseFields(
                     fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태코드"),
                     fieldWithPath("responseMessage").type(JsonFieldType.STRING).description("응답메세지"),
