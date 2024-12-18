@@ -10,6 +10,7 @@ public class MemberJoinResponse{
     private final String realName;
     private final String loginId;
     private final String email;
+    private final String role;
     private final LocalDateTime createDateTime;
 
     public MemberJoinResponse(Member member) {
@@ -17,6 +18,7 @@ public class MemberJoinResponse{
         this.realName = member.getRealName();
         this.loginId = member.getLoginId();
         this.email = member.getEmail();
+        this.role = member.getRole().getValue();
         this.createDateTime = member.getCreateDate();
     }
 }

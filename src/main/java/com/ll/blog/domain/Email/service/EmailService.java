@@ -2,20 +2,17 @@ package com.ll.blog.domain.Email.service;
 
 import com.ll.blog.domain.global.redis.service.RedisService;
 import com.ll.blog.domain.member.repository.MemberRepository;
-import com.ll.blog.domain.member.service.MemberService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.security.SecureRandom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-
-import java.security.SecureRandom;
 
 @Service
 @RequiredArgsConstructor
@@ -43,7 +40,7 @@ public class EmailService {
   //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성합니다.
   public String joinEmail(String email) {
     if (isCheckEmail(email)) {
-      throw new IllegalArgumentException("이미 사용중인 이메일이므로 인증코드를 전송할 수 없습니다.");
+        throw new IllegalArgumentException("이메일이 중복입니다.");
     }
     int randomValue = randomValueGeneration(); //인증번호 6자리 생성
     String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목
