@@ -4,7 +4,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -74,10 +73,9 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
     String verificationCode = "123456";
     String password = "123";
     String passwordConfirm = "123";
-
     String requestBody = objectMapper.writeValueAsString(
-        new MemberJoinRequest(realName, loginId, password, passwordConfirm, email,
-            verificationCode));
+        new MemberJoinRequest(loginId, realName, email, verificationCode, password,
+            passwordConfirm));
 
     //request
     ResultActions actions = mockMvc.perform(post(api)
@@ -89,8 +87,40 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
     actions.andExpect(status().isOk())
         .andExpect(jsonPath("$.statusCode").value("201"))
         .andExpect((jsonPath("$.responseMessage").value("회원가입성공")))
-//        .andExpect(jsonPath("$.data.memberId").value(1))
-//        .andExpect(jsonPath("$.data.availability").value(false))
-        .andDo(print());
+        .andExpect((jsonPath("$.data.memberId").value(1)))
+        .andExpect((jsonPath("$.data.realName").value("홍길동")))
+        .andExpect((jsonPath("$.data.loginId").value("example1")))
+        .andExpect((jsonPath("$.data.email").value("example@example.com")))
+        .andExpect((jsonPath("$.data.role").value("MEMBER")))
+        .andDo(
+            restDocs.document(
+                requestFields(
+                    fieldWithPath("loginId").type(JsonFieldType.STRING).description("로그인 아이디")
+                        .attributes(constraints("5자 이상 12자 미만 , 영 소.대문자 + 숫자조합")),
+                    fieldWithPath("realName").type(JsonFieldType.STRING).description("본명")
+                        .attributes(constraints("한글만 입력가능 , 3 ~ 4 자 작성가능")),
+                    fieldWithPath("email").type(JsonFieldType.STRING).description("이메일")
+                        .attributes(constraints("이메일형식")),
+                    fieldWithPath("verificationCode").type(JsonFieldType.STRING).description("인증번호")
+                        .attributes(constraints("숫자 6자리")),
+                    fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호")
+                        .attributes(constraints("유효성적용 x")),
+                    fieldWithPath("passwordConfirm").type(JsonFieldType.STRING)
+                        .description("비밀번호 확인")
+                        .attributes(constraints("유효성적용 x"))
+                ),
+                responseFields(
+                    fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태코드"),
+                    fieldWithPath("responseMessage").type(JsonFieldType.STRING)
+                        .description("응답메세지"),
+                    fieldWithPath("data.memberId").type(JsonFieldType.NUMBER).description("회원아이디"),
+                    fieldWithPath("data.loginId").type(JsonFieldType.STRING).description("로그인아이디"),
+                    fieldWithPath("data.realName").type(JsonFieldType.STRING).description("본명"),
+                    fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
+                    fieldWithPath("data.role").type(JsonFieldType.STRING).description("권한"),
+                    fieldWithPath("data.createdAt").type(JsonFieldType.STRING).description("생성시간")
+                )
+            )
+        );
   }
 }
