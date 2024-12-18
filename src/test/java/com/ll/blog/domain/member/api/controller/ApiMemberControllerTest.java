@@ -48,23 +48,25 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
         .andExpect(jsonPath("$.data.loginId").value("example1"))
         .andExpect(jsonPath("$.data.availability").value(false))
         .andDo(
-              restDocs.document(
-                  requestFields(
-                      fieldWithPath("loginId").type(JsonFieldType.STRING).description("로그인 아이디")
+            restDocs.document(
+                requestFields(
+                    fieldWithPath("loginId").type(JsonFieldType.STRING).description("로그인 아이디")
 //                          .attributes(key("constraints").value("2자 이상 4자 이하 형식"))
-                          .attributes(constraints("5자 이상 12자 미만 , 영 소.대문자 + 숫자조합"))
-                  ),
+                        .attributes(constraints("5자 이상 12자 미만 , 영 소.대문자 + 숫자조합"))
+                ),
                 responseFields(
                     fieldWithPath("statusCode").type(JsonFieldType.NUMBER).description("상태코드"),
-                    fieldWithPath("responseMessage").type(JsonFieldType.STRING).description("응답메세지"),
+                    fieldWithPath("responseMessage").type(JsonFieldType.STRING)
+                        .description("응답메세지"),
                     fieldWithPath("data.loginId").type(JsonFieldType.STRING).description("로그인아이디"),
-                    fieldWithPath("data.availability").type(JsonFieldType.BOOLEAN).description("중복여부")
+                    fieldWithPath("data.availability").type(JsonFieldType.BOOLEAN)
+                        .description("중복여부")
                 )));
   }
 
   @Test
   @DisplayName("회원가입테스트")
-  void signUp() throws Exception{
+  void signUp() throws Exception {
     String api = "/api/member/signup";
     String loginId = "example1";
     String realName = "홍길동";
@@ -74,7 +76,8 @@ class ApiMemberControllerTest extends RestDocsTestSupport {
     String passwordConfirm = "123";
 
     String requestBody = objectMapper.writeValueAsString(
-        new MemberJoinRequest(realName , loginId , password ,passwordConfirm, email , verificationCode));
+        new MemberJoinRequest(realName, loginId, password, passwordConfirm, email,
+            verificationCode));
 
     //request
     ResultActions actions = mockMvc.perform(post(api)

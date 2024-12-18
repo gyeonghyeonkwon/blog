@@ -5,20 +5,21 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 
 @Getter
-public class MemberJoinResponse{
-    private final Long memberId;
-    private final String realName;
-    private final String loginId;
-    private final String email;
-    private final String role;
-    private final LocalDateTime createDateTime;
+public class MemberJoinResponse {
 
-    public MemberJoinResponse(Member member) {
-        this.memberId = member.getMemberId();
-        this.realName = member.getRealName();
-        this.loginId = member.getLoginId();
-        this.email = member.getEmail();
-        this.role = member.getRole().getValue();
-        this.createDateTime = member.getCreateDate();
-    }
+  private final Long memberId;
+  private final String realName;
+  private final String loginId;
+  private final String email;
+  private final String role;
+  private final LocalDateTime createdAt;
+
+  public MemberJoinResponse(Member member) {
+    this.memberId = member.getMemberId();
+    this.realName = member.getRealName();
+    this.loginId = member.getLoginId();
+    this.email = member.getEmail();
+    this.role = member.getRole().getValue();
+    this.createdAt = member.getCreateDate();
+  }
 }
