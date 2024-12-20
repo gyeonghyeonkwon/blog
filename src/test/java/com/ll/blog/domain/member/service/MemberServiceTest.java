@@ -80,7 +80,8 @@ class MemberServiceTest {
         .password("123")
         .passwordConfirm("123")
         .build();
+    
     MemberJoinResponse memberJoinResponse = memberService.signUp(request.toCommand());
-    assertThat(memberJoinResponse.getMemberId()).isEqualTo(2L);
+    assertThat(memberJoinResponse.memberId()).isEqualTo(2L);
   }
 }
