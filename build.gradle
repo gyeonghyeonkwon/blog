@@ -50,6 +50,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation "org.testcontainers:testcontainers:1.19.0" //redis test
     testImplementation "org.testcontainers:junit-jupiter:1.19.0" // 테스트컨테이너추가
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 }
 
 ext {
@@ -67,8 +69,8 @@ asciidoctor { //(7)
     configurations 'asciidoctorExt' //(9)
     dependsOn test //(10)
 
-    sources{ //(11) index.adoc 이외 다른 adoc 는 html로 생성하지않음
-        include("**/index.adoc","**/common/*.adoc")
+    sources { //(11) index.adoc 이외 다른 adoc 는 html로 생성하지않음
+        include("**/index.adoc", "**/common/*.adoc")
     }
     baseDirFollowsSourceFile()
 }
@@ -78,7 +80,7 @@ asciidoctor.doFirst {
     delete file('src/main/resources/static/docs')
 }
 
-task copyDocument (type:Copy) { //(13)
+task copyDocument(type: Copy) { //(13)
     dependsOn asciidoctor
     from file("build/docs/asciidoc") //여기에 위치한 html파일을
     into file("src/main/resources/static/docs") //해당 경로로 복사한다.

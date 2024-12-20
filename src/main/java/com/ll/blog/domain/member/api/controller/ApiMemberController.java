@@ -6,6 +6,7 @@ import com.ll.blog.domain.member.dto.JoinLoginIdCheckResponse;
 import com.ll.blog.domain.member.dto.MemberJoinCommand;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
+import com.ll.blog.domain.member.dto.mapper.MemberMapper;
 import com.ll.blog.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiMemberController {
 
   private final MemberService memberService;
+  private final MemberMapper memberMapper;
 
   @PostMapping("/check-login-id")
   public ResponseEntity loginIdCheck(
@@ -35,7 +37,7 @@ public class ApiMemberController {
 
   @PostMapping("/signup")
   public ResponseEntity signUp(@RequestBody @Valid MemberJoinRequest memberJoinRequest) {
-    MemberJoinCommand joinCommand = memberJoinRequest.toCommand();
+    MemberJoinCommand joinCommand = memberMapper.toCommand(memberJoinRequest);
     MemberJoinResponse memberJoinResponse = memberService.signUp(joinCommand);
     return new ResponseEntity(ResponseData.res(201, "회원가입성공", memberJoinResponse),
         HttpStatus.OK);

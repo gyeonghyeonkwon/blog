@@ -3,6 +3,7 @@ package com.ll.blog.domain.member.service;
 import com.ll.blog.domain.Email.service.EmailService;
 import com.ll.blog.domain.member.dto.MemberJoinCommand;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
+import com.ll.blog.domain.member.dto.mapper.MemberMapper;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class MemberService {
 
   private final MemberRepository memberRepository;
   private final EmailService emailService;
+  private final MemberMapper memberMapper;
 
   @Transactional
   public MemberJoinResponse signUp(final MemberJoinCommand memberJoinCommand) {
@@ -32,7 +34,7 @@ public class MemberService {
         memberJoinCommand.getVerificationCode())) {
       throw new NullPointerException("인증코드가 일치하지않습니다.");
     }
-    Member saveMember = memberRepository.save(memberJoinCommand.toEntity());
+    Member saveMember = memberRepository.save(memberMapper.toEntity(memberJoinCommand));
     return new MemberJoinResponse(saveMember);
   }
 

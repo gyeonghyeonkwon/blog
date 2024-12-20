@@ -5,8 +5,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import com.ll.blog.domain.global.redis.config.RedisTestContainerConfig;
 import com.ll.blog.domain.global.redis.service.RedisService;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
+import com.ll.blog.domain.member.dto.MemberJoinCommand;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
+import com.ll.blog.domain.member.dto.mapper.MemberMapper;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -33,6 +35,9 @@ class MemberServiceTest {
 
   @Autowired
   private RedisService redisService;
+
+  @Autowired
+  private MemberMapper memberMapper;
 
   @BeforeEach
   public void loginIdSave() {
@@ -80,8 +85,8 @@ class MemberServiceTest {
         .password("123")
         .passwordConfirm("123")
         .build();
-    
-    MemberJoinResponse memberJoinResponse = memberService.signUp(request.toCommand());
+    MemberJoinCommand joinCommand = memberMapper.toCommand(request);
+    MemberJoinResponse memberJoinResponse = memberService.signUp(joinCommand);
     assertThat(memberJoinResponse.memberId()).isEqualTo(2L);
   }
 }
