@@ -1,7 +1,5 @@
 package com.ll.blog.domain.member.dto;
 
-import com.ll.blog.domain.member.entity.Member;
-import com.ll.blog.domain.member.entity.MemberRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -11,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter
 @Setter
@@ -49,14 +46,14 @@ public class MemberJoinRequest {
   @NotBlank(message = "비밀번호 확인란을 입력해주세요.")
   private String passwordConfirm;
 
-  public Member toEntity() {
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    return Member.builder()
+  public MemberJoinCommand toCommand() {
+    return MemberJoinCommand.builder()
         .loginId(this.loginId)
         .realName(this.realName)
         .email(this.email)
-        .password(passwordEncoder.encode(this.password))
-        .role(MemberRole.MEMBER)
+        .verificationCode(this.verificationCode)
+        .password(this.password)
+        .passwordConfirm(this.passwordConfirm)
         .build();
   }
 }

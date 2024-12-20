@@ -1,7 +1,7 @@
 package com.ll.blog.domain.member.service;
 
 import com.ll.blog.domain.Email.service.EmailService;
-import com.ll.blog.domain.member.dto.MemberJoinRequest;
+import com.ll.blog.domain.member.dto.MemberJoinCommand;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
@@ -18,23 +18,24 @@ public class MemberService {
   private final EmailService emailService;
 
   @Transactional
-  public MemberJoinResponse signUp(final MemberJoinRequest memberJoinRequest) {
-    if (isCheckLoginId(memberJoinRequest.getLoginId())) {
+  public MemberJoinResponse signUp(final MemberJoinCommand memberJoinCommand) {
+    if (isCheckLoginId(memberJoinCommand.getLoginId())) {
       throw new IllegalArgumentException("아이디가 존재합니다.");
     }
-    if (emailService.isCheckEmail(memberJoinRequest.getEmail())) {
+    if (emailService.isCheckEmail(memberJoinCommand.getEmail())) {
       throw new IllegalArgumentException("이메일이 존재합니다.");
     }
-    if (!memberJoinRequest.getPassword().equals(memberJoinRequest.getPasswordConfirm())) {
+    if (!memberJoinCommand.getPassword().equals(memberJoinCommand.getPasswordConfirm())) {
       throw new IllegalArgumentException("비밀번호가 일치하지않습니다.");
     }
-    if (!emailService.verificationCodeCheck(memberJoinRequest.getEmail(),
-        memberJoinRequest.getVerificationCode())) {
+    if (!emailService.verificationCodeCheck(memberJoinCommand.getEmail(),
+        memberJoinCommand.getVerificationCode())) {
       throw new NullPointerException("인증코드가 일치하지않습니다.");
     }
-    Member saveMember = memberRepository.save(memberJoinRequest.toEntity());
+    Member saveMember = memberRepository.save(memberJoinCommand.toEntity());
     return new MemberJoinResponse(saveMember);
   }
+
   //아이디 중복 여부
   public boolean isCheckLoginId(final String loginId) {
     return memberRepository.existsByLoginId(loginId);

@@ -35,7 +35,7 @@ class MemberServiceTest {
   private RedisService redisService;
 
   @BeforeEach
-  public void loginIdSave () {
+  public void loginIdSave() {
     String loginId = "test88";
     Member member = Member.builder()
         .loginId(loginId)
@@ -51,6 +51,7 @@ class MemberServiceTest {
 
     redisService.setDataExpire(key, value, duration); // 레디스에 직접 데이터를 넣는다.
   }
+
   //테스트가 종료되면 redis 데이터를 삭제한다.
   @AfterEach
   public void codeDelete() {
@@ -62,10 +63,12 @@ class MemberServiceTest {
   @DisplayName("아이디중복체크")
   void 로그인아이디중복테스트() {
     JoinLoginIdCheckRequest request = new JoinLoginIdCheckRequest("test88");
-    boolean isExistsLoginId = memberService.isCheckLoginId(request.getLoginId()); //아이디가 중복이면 true가 반환되어야한다.
+    boolean isExistsLoginId = memberService.isCheckLoginId(
+        request.getLoginId()); //아이디가 중복이면 true가 반환되어야한다.
     System.out.println("로그인아이디중복여부 = " + isExistsLoginId);
     assertThat(isExistsLoginId).isTrue();
   }
+
   @Test
   @DisplayName("회원가입테스트")
   void signup() {
@@ -77,7 +80,7 @@ class MemberServiceTest {
         .password("123")
         .passwordConfirm("123")
         .build();
-    MemberJoinResponse memberJoinResponse = memberService.signUp(request);
+    MemberJoinResponse memberJoinResponse = memberService.signUp(request.toCommand());
     assertThat(memberJoinResponse.getMemberId()).isEqualTo(2L);
   }
 }
