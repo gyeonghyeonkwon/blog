@@ -46,14 +46,14 @@ public class MemberJoinRequest {
   @NotBlank(message = "비밀번호 확인란을 입력해주세요.")
   private String passwordConfirm;
 
-//  public MemberJoinCommand toCommand() {
-//    return MemberJoinCommand.builder()
-//        .loginId(this.loginId)
-//        .realName(this.realName)
-//        .email(this.email)
-//        .verificationCode(this.verificationCode)
-//        .password(this.password)
-//        .passwordConfirm(this.passwordConfirm)
-//        .build();
-//  }
+  public MemberJoinCommand toCommand() {
+    return MemberJoinCommand.builder()
+        .loginId(this.loginId)
+        .realName(this.realName)
+        .email(this.email)
+        .verificationCode(this.verificationCode)
+        .password(this.password)
+        .passwordConfirm(this.passwordConfirm)
+        .build();
+  }
 }

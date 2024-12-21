@@ -8,7 +8,6 @@ import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
 import com.ll.blog.domain.member.dto.MemberJoinCommand;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
-import com.ll.blog.domain.member.dto.mapper.MemberMapper;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -35,10 +34,7 @@ class MemberServiceTest {
 
   @Autowired
   private RedisService redisService;
-
-  @Autowired
-  private MemberMapper memberMapper;
-
+  
   @BeforeEach
   public void loginIdSave() {
     String loginId = "test88";
@@ -85,7 +81,7 @@ class MemberServiceTest {
         .password("123")
         .passwordConfirm("123")
         .build();
-    MemberJoinCommand joinCommand = memberMapper.toCommand(request);
+    MemberJoinCommand joinCommand = request.toCommand();
     MemberJoinResponse memberJoinResponse = memberService.signUp(joinCommand);
     assertThat(memberJoinResponse.memberId()).isEqualTo(2L);
   }
