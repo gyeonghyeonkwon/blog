@@ -34,7 +34,7 @@ class MemberServiceTest {
 
   @Autowired
   private RedisService redisService;
-  
+
   @BeforeEach
   public void loginIdSave() {
     String loginId = "test88";

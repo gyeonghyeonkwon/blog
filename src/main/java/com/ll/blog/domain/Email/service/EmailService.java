@@ -40,13 +40,14 @@ public class EmailService {
   //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성합니다.
   public String joinEmail(String email) {
     if (isCheckEmail(email)) {
-        throw new IllegalArgumentException("이미 사용중인 이메일이므로 인증코드를 전송할 수 없습니다.");
+      throw new IllegalArgumentException("이미 사용중인 이메일이므로 인증코드를 전송할 수 없습니다.");
     }
     int randomValue = randomValueGeneration(); //인증번호 6자리 생성
     String title = "회원 가입 인증 이메일 입니다."; // 이메일 제목
     String content = htmlContent(randomValue); //html 렌더링
     mailSend(senderEmail, email, title, content); //메일을 전송 (보내는사람 , 받는사람 , 제목 , 내용)
-    redisService.setDataExpire(email, String.valueOf(randomValue), 60 * 5L); //이메일 (key) , 인증번호(value) 5분동안 redis 에 저장
+    redisService.setDataExpire(email, String.valueOf(randomValue),
+        60 * 5L); //이메일 (key) , 인증번호(value) 5분동안 redis 에 저장
     return Integer.toString(randomValue); //인증번호 6자리
   }
 
@@ -82,8 +83,9 @@ public class EmailService {
     }
     return value.equals(verificationCode); //value 값 일치여부 , 일치하면 true , 일치하지않으면 false 반환
   }
+
   //이메일 중복 여부
-  public boolean isCheckEmail(final String email) {
-    return memberRepository.existsByEmail(email);
+  public boolean isCheckEmail(String email) {
+    return !memberRepository.existsByEmail(email); //아이디가 존재하면 true를 반환하기때문에 가독성을 위해 false를 반환
   }
 }

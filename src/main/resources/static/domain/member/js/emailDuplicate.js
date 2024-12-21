@@ -1,7 +1,6 @@
-
 //이메일 중복체크
 let timer;
-$('#email').on('input' , function () {
+$('#email').on('input', function () {
   const email = getEmail();
   const csrfHeader = getCsrfHeader();
   const isEmailValid = isEmailValidation();
@@ -27,15 +26,14 @@ $('#email').on('input' , function () {
       },
       success: function (response) {
         console.log(response);
-        if (response.data) {
-          $('#email-already').show();
-          $('#email-ok').hide();
-          $('#send-code-btn').prop('disabled' , true);
-        }
-        else {
+        if (response.data.isEmailAvailable) {
           $('#email-already').hide();
           $('#email-ok').show();
-          $('#send-code-btn').prop('disabled' , false);
+          $('#send-code-btn').prop('disabled', false);
+        } else {
+          $('#email-already').show();
+          $('#email-ok').hide();
+          $('#send-code-btn').prop('disabled', true);
         }
       },
       error: function () {
