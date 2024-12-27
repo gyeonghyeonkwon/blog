@@ -39,7 +39,7 @@ public class EmailService {
 
   //mail을 어디서 보내는지, 어디로 보내는지 , 인증 번호를 html 형식으로 어떻게 보내는지 작성합니다.
   public String joinEmail(String email) {
-    if (isCheckEmail(email)) {
+    if (!isCheckEmail(email)) {
       throw new IllegalArgumentException("이미 사용중인 이메일이므로 인증코드를 전송할 수 없습니다.");
     }
     int randomValue = randomValueGeneration(); //인증번호 6자리 생성
@@ -76,7 +76,7 @@ public class EmailService {
   }
 
   //인증번호 일치하는지 여부 , 본인이메일 일치하는지 여부
-  public Boolean verificationCodeCheck(String email, String verificationCode) {
+  public boolean verificationCodeCheck(String email, String verificationCode) {
     String value = redisService.getData(email); //key에 해당하는 value값을 반환.
     if (value == null) {
       return false; //value 값이 null 이면 false 반환

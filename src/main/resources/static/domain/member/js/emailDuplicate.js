@@ -30,10 +30,12 @@ $('#email').on('input', function () {
           $('#email-already').hide();
           $('#email-ok').show();
           $('#send-code-btn').prop('disabled', false);
+          $('#verification-code').prop('disabled', false);
         } else {
           $('#email-already').show();
           $('#email-ok').hide();
           $('#send-code-btn').prop('disabled', true);
+          $('#verification-code').prop('disabled', true)
         }
       },
       error: function () {

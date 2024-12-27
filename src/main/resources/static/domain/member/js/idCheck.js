@@ -45,12 +45,10 @@ $('#check-duplicate-btn').on('click', function () {
         $('#id-already').show(); //아이디중복입니다 텍스트 출력
         $('#id-ok').hide(); //사용가능한아이디입니다 텍스트 숨김
         $('#duplicate-check-message').hide(); //아이디 중복검사를 실시하세요 텍스트 숨김
-        $('#submit-btn').prop("disabled", true); //submit 비활성화
       } else { //아이디가 중복이 아니라면
         $('#id-ok').show() //사용가능한아이디입니다 텍스트 출력
         $('#id-already').hide(); //아이디중복입니다 텍스트 숨김
         $('#duplicate-check-message').hide(); //아이디 중복검사를 실시하세요 텍스트 숨김
-        $('#submit-btn').prop("disabled", false); //submit 활성화
       }
     },
     error: function () {

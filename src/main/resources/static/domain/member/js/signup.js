@@ -12,19 +12,41 @@ $('#submit-btn').on('click', function () {
   const passwordConfirm = $('#password-confirm').val();
 
   const requestData = {
-    loginId : loginId ,
-    realName : realName ,
-    email : email ,
-    verificationCode : verificationCode ,
-    password : password ,
-    passwordConfirm : passwordConfirm
+    loginId: loginId,
+    realName: realName,
+    email: email,
+    verificationCode: verificationCode,
+    password: password,
+    passwordConfirm: passwordConfirm
   };
   if (!$('#form').valid()) { //form 유효성검사
     return;
   }
-  //중복체크를 클릭해야만 id-ok 메세지가보인다. id-ok 가 보이지 않으면 중복체크를 하지않았다는것이다.
-  if ($('#id-ok').css('display') === 'none') {
-    alert('아이디중복체크를진행해주세요.')
+  /**
+   * 사용가능한 아이디입니다 ,
+   * 다른아이디를사용해주세요 메세지가 보이지않고
+   * 아이디중복검사를 실시하세요 메세지만보인다면
+   * 실행된다.
+   */
+  if ($('#id-check-msg').css('display') !== 'none' &&
+      $('#id-already').css('display') === 'none'
+      && $('#id-ok').css('display') === 'none') {
+    alert('아이디 중복검사를 진행해주세요.');
+    return;
+  }
+  // 다른아이디를사용해주세요 메세지만 보인다면 실행된다.
+  if ($('#id-already').css('display') !== 'none') {
+    alert('아이디를 다시 확인해주세요.');
+    return;
+  }
+  // 입력하신 이메일을 사용할 수 없습니다 메세지만 보인다면 실행된다.
+  if ($('#email-already').css('display') !== 'none') {
+    alert('이메일을 다시 확인해주세요.');
+    return;
+  }
+  //인증에 실패하였습니다 메세지만 보이면 실행된다.
+  if ($('#verification-fail-msg').css('display') !== 'none') {
+    alert('인증번호를 다시 확인해주세요.');
     return;
   }
   $.ajax({
@@ -41,7 +63,7 @@ $('#submit-btn').on('click', function () {
       alert('회원가입에 성공하였습니다. 로그인을 진행해주세요.');
     },
     error: function () {
-      alert("회원가입이 실패하였습니다.");
+      alert("회원가입을 진행할 수 없습니다.");
     }
   });
 });

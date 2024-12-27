@@ -26,7 +26,8 @@ public class ApiMemberController {
   @PostMapping("/check-login-id")
   public ResponseEntity loginIdCheck(
       @RequestBody @Valid JoinLoginIdCheckRequest joinLoginIdCheckRequest) {
-    boolean isLoginIdCheck = memberService.isCheckLoginId(joinLoginIdCheckRequest.getLoginId());
+    boolean isLoginIdCheck = memberService.isCheckLoginId(
+        joinLoginIdCheckRequest.getLoginId());
     String idCheck = isLoginIdCheck ? "입력하신 아이디를 사용할 수 없습니다." : "아이디사용가능합니다.";
     return new ResponseEntity<>(ResponseData.res(200, idCheck,
         new JoinLoginIdCheckResponse(joinLoginIdCheckRequest.getLoginId(), isLoginIdCheck)),

@@ -30,7 +30,8 @@ public class ApiEmailController {
     EmailCommand emailCommand = emailRequest.toCommand();
     boolean isEmailCheck = emailService.isCheckEmail(emailCommand.getEmail());
     String emailCheck = isEmailCheck ? "사용가능한이메일입니다." : "입력하신 이메일을 사용할 수 없습니다";
-    return new ResponseEntity<>(ResponseData.res(200, emailCheck, new EmailResponse(isEmailCheck)),
+    return new ResponseEntity<>(
+        ResponseData.res(200, emailCheck, new EmailResponse(isEmailCheck)),
         HttpStatus.OK);
   }
 

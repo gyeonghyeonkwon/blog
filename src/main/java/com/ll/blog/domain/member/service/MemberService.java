@@ -22,7 +22,7 @@ public class MemberService {
     if (isCheckLoginId(memberJoinCommand.getLoginId())) {
       throw new IllegalArgumentException("아이디가 존재합니다.");
     }
-    if (emailService.isCheckEmail(memberJoinCommand.getEmail())) {
+    if (!emailService.isCheckEmail(memberJoinCommand.getEmail())) {
       throw new IllegalArgumentException("이메일이 존재합니다.");
     }
     if (!memberJoinCommand.getPassword().equals(memberJoinCommand.getPasswordConfirm())) {
