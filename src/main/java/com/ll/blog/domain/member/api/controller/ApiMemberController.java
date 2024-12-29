@@ -3,6 +3,7 @@ package com.ll.blog.domain.member.api.controller;
 import com.ll.blog.domain.global.ResponseData;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckResponse;
+import com.ll.blog.domain.member.dto.LoginRequest;
 import com.ll.blog.domain.member.dto.MemberJoinCommand;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
@@ -40,5 +41,10 @@ public class ApiMemberController {
     MemberJoinResponse memberJoinResponse = memberService.signUp(joinCommand);
     return new ResponseEntity(ResponseData.res(201, "회원가입성공", memberJoinResponse),
         HttpStatus.OK);
+  }
+
+  @PostMapping("'/login")
+  public String login(@RequestBody @Valid LoginRequest loginRequest) {
+    return null;
   }
 }
