@@ -30,7 +30,7 @@ jQuery(function () {
       passwordConfirm: {
         required: true,
         equalTo: "#password"
-      }
+      },
     },
     messages: {
       loginId: {
@@ -95,11 +95,11 @@ jQuery(function () {
       }
     },
     highlight: function (element) {
-      // 에러 발생 시 인풋에 클래스 추가
+      // 에러 발생 시 인풋에 클래스 추가 , (input 빨간색 테두리)
       $(element).addClass("input-invalid");
     },
     unhighlight: function (element) {
-      // 에러가 해결되면 클래스 제거
+      // 에러가 해결되면 클래스 제거, (input 빨간색 테두리)
       $(element).removeClass("input-invalid");
     }
   });

@@ -10,16 +10,20 @@
   margin-top: 3%;
   margin-left: auto;
 }
+
 .checkbox {
   margin-right: 5px;
   width: 18px; /* 체크박스 너비 */
   height: 18px; /* 체크박스 높이 */
 }
-p { /*에러폰트*/
-  color: red;
-  font-family: 'LeeSeoyun';
-}
+
 .input-invalid {
   border: 2px solid red; /* 인풋 필드의 테두리를 빨간색으로 표시 */
+}
+
+.error {
+  display: block; /* 줄바꿈*/
+  color: red;
+  font-family: 'LeeSeoyun';
 }
 
