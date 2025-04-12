@@ -39,4 +39,5 @@ public class Member extends BaseEntity {
 
   @Enumerated(value = EnumType.STRING)
   private MemberRole role;
+
 }

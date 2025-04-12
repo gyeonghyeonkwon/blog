@@ -1,6 +1,7 @@
 package com.ll.blog.domain.member.api.controller;
 
 import com.ll.blog.domain.global.ResponseData;
+import com.ll.blog.domain.jwt.Jwt;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckResponse;
 import com.ll.blog.domain.member.dto.LoginRequest;
@@ -43,8 +44,8 @@ public class ApiMemberController {
         HttpStatus.OK);
   }
 
-  @PostMapping("'/login")
-  public String login(@RequestBody @Valid LoginRequest loginRequest) {
-    return null;
+  @PostMapping("/login")
+  public ResponseEntity<Jwt> login(@RequestBody @Valid LoginRequest loginRequest) {
+    return ResponseEntity.ok(memberService.login(loginRequest));
   }
 }
