@@ -51,7 +51,7 @@ $('#submit-btn').on('click', function () {
   }
   $.ajax({
     type: 'POST',
-    url: '/api/member/signup',
+    url: '/api/members/signup',
     contentType: 'application/json',
     data: JSON.stringify(requestData), //데이터 요청
     beforeSend: function (xhr) {
@@ -59,7 +59,7 @@ $('#submit-btn').on('click', function () {
     },
     success: function (data) {
       console.log(data);
-      location.href = '/member/login'; //로그인화면
+      location.href = '/members/login'; //로그인화면
       alert('회원가입에 성공하였습니다. 로그인을 진행해주세요.');
     },
     error: function () {

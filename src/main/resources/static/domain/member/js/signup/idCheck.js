@@ -33,7 +33,7 @@ $('#check-duplicate-btn').on('click', function () {
   }
   $.ajax({
     type: 'POST',
-    url: "/api/member/check-login-id", //Controller 주소
+    url: "/api/members/check-login-id", //Controller 주소
     contentType: 'application/json', // JSON 데이터로 전송
     data: JSON.stringify({loginId: loginId}),
     beforeSend: function (xhr) {

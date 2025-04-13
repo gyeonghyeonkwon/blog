@@ -18,7 +18,7 @@ $('#email').on('input', function () {
   timer = setTimeout(function () {
     $.ajax({
       type: 'POST',
-      url: '/api/member/check-email',
+      url: '/api/members/check-email',
       contentType: 'application/json',
       data: JSON.stringify({email: email}), //데이터 요청
       beforeSend: function (xhr) {

@@ -1,12 +1,11 @@
-
 function getCsrfHeader() {
   const csrfToken = $('meta[name="_csrf"]').attr('content');
   const csrfHeader = $('meta[name="_csrf_header"]').attr('content');
-  return {csrfToken , csrfHeader};
+  return {csrfToken, csrfHeader};
 };
 
 function getEmail() {
-  return  $('#email').val();
+  return $('#email').val();
 };
 
 function isEmailValidation() {
@@ -24,7 +23,7 @@ $('#send-code-btn').on('click', function () {
 
   $.ajax({
     type: 'POST',
-    url: '/api/member/mail-send',
+    url: '/api/members/mail-send',
     contentType: 'application/json',
     data: JSON.stringify({email: email}), //데이터 요청
     beforeSend: function (xhr) {

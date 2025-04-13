@@ -1,7 +1,6 @@
 package com.ll.blog.domain.member.api.controller;
 
 import com.ll.blog.domain.global.ResponseData;
-import com.ll.blog.domain.jwt.Jwt;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckRequest;
 import com.ll.blog.domain.member.dto.JoinLoginIdCheckResponse;
 import com.ll.blog.domain.member.dto.LoginRequest;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/member")
+@RequestMapping("/api/members")
 public class ApiMemberController {
 
   private final MemberService memberService;
@@ -44,8 +43,9 @@ public class ApiMemberController {
         HttpStatus.OK);
   }
 
-  @PostMapping("/login")
-  public ResponseEntity<Jwt> login(@RequestBody @Valid LoginRequest loginRequest) {
-    return ResponseEntity.ok(memberService.login(loginRequest));
+  @PostMapping("/signIn")
+  public ResponseEntity login(@RequestBody @Valid LoginRequest loginRequest) {
+    return new ResponseEntity(ResponseData.res(200, "로그인성공", memberService.login(loginRequest)),
+        HttpStatus.OK);
   }
 }
