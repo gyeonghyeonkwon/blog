@@ -1,11 +1,13 @@
 package com.ll.blog.domain.member.service;
 
 import com.ll.blog.domain.Email.service.EmailService;
+import com.ll.blog.domain.global.redis.service.RedisService;
 import com.ll.blog.domain.jwt.Jwt;
 import com.ll.blog.domain.jwt.JwtProvider;
 import com.ll.blog.domain.member.dto.LoginRequest;
 import com.ll.blog.domain.member.dto.MemberJoinCommand;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
+import com.ll.blog.domain.member.dto.TokenRequest;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ public class MemberService {
   private final MemberRepository memberRepository;
   private final EmailService emailService;
   private final JwtProvider jwtProvider;
+  private final RedisService redisService;
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
   @Transactional
@@ -62,10 +65,36 @@ public class MemberService {
     // 3. 인증 정보를 기반으로 JWT 토큰 생성 (access + refresh token)
     Jwt jwt = jwtProvider.generateToken(authentication);
 
-    /**
-     * refreshToken 구현 예정
-     */
+    //redis에 refreshToken저장
+    redisService.setData(authentication.getName(), jwt.getRefreshToken());
 
+    return jwt;
+  }
+
+  @Transactional
+  public Jwt reissue(TokenRequest tokenRequest) {
+
+    // 1. Refresh Token 검증
+    if (!jwtProvider.isValidateToken(tokenRequest.getRefreshToken())) {
+      throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
+    }
+    // 2. Access Token 에서 Member ID 가져오기
+    Authentication authentication = jwtProvider.getAuthentication(tokenRequest.getAccessToken());
+
+    // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
+    String refreshToken = redisService.getData(authentication.getName()); //value값
+    if (refreshToken == null) {
+      throw new RuntimeException("로그아웃 된 사용자입니다.");
+    }
+    // 4. Refresh Token 일치하는지 검사
+    if (!refreshToken.equals(tokenRequest.getRefreshToken())) {
+      throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+    }
+    // 5. 새로운 토큰 생성
+    Jwt jwt = jwtProvider.generateToken(authentication);
+
+    // 6. 저장소 정보 업데이트
+    redisService.setData(authentication.getName(), jwt.getRefreshToken());
     return jwt;
   }
 }

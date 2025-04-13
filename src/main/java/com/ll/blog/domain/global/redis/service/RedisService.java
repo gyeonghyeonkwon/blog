@@ -19,7 +19,7 @@ public class RedisService {
     ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
     return valueOperations.get(key);
   }
-
+  
   public void setData(String key, String value) {//지정된 키(key)에 값을 저장하는 메서드
     ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
     valueOperations.set(key, value);

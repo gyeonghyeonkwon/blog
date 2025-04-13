@@ -7,6 +7,7 @@ import com.ll.blog.domain.member.dto.LoginRequest;
 import com.ll.blog.domain.member.dto.MemberJoinCommand;
 import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
+import com.ll.blog.domain.member.dto.TokenRequest;
 import com.ll.blog.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,11 @@ public class ApiMemberController {
   public ResponseEntity login(@RequestBody @Valid LoginRequest loginRequest) {
     return new ResponseEntity(ResponseData.res(200, "로그인성공", memberService.login(loginRequest)),
         HttpStatus.OK);
+  }
+
+  @PostMapping("/reissue")
+  public ResponseEntity reissue(@RequestBody TokenRequest tokenRequest) {
+    return new ResponseEntity(ResponseData.res(200,
+        "토큰재발급성공", memberService.reissue(tokenRequest)), HttpStatus.OK);
   }
 }

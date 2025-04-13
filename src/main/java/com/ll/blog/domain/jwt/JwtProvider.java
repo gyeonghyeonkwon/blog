@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtProvider {
 
-  private static final long ACCESS_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60;
+  private static final long ACCESS_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60; // 1시간
   private static final long REFRESH_TOKEN_EXPIRATION_TIME = 1000 * 60 * 60 * 24 * 7;
   private final SecretKey key; // JWT 서명을 위한 Key 객체 선언
 
@@ -63,6 +63,7 @@ public class JwtProvider {
         .grantType("Bearer")
         .accessToken(accessToken)
         .refreshToken(refreshToken)
+        .accessTokenExpiresIn(new Date(currentDate + ACCESS_TOKEN_EXPIRATION_TIME)) //액세스토큰만료시간
         .build();
   }
 
