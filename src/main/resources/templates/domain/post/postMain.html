@@ -1,0 +1,43 @@
+<html layout:decorate="~{layout/layout.html}" xmlns:layout="http://www.w3.org/1999/xhtml"
+>
+<div layout:fragment="content">
+  <!-- login.html -->
+  <div>
+    <!--    <p>아이디:<span id="login-id"></span></p>-->
+    <!--    <p>이름: <span id="name"></span></p>-->
+    <!--    <p>권한: <span id="role"></span></p>-->
+    <h2 id="welcome-msg">로딩 중...</h2>
+
+  </div>
+  <th:block layout:fragment="script">
+    <script th:inline="javascript">
+      $(document).ready(function () {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert("로그인 정보가 없습니다.");
+          location.href = "/login"; // 로그인 페이지로 리다이렉트
+          return;
+        }
+        $.ajax({
+          type: "GET",
+          url: "/api/members/me",
+
+          headers: {
+            'Authorization': "Bearer " + token // "Bearer " 꼭 붙여야 함!
+          },
+          success: function (data) {
+            $("#welcome-msg").text(data.data + "님 환영합니다");
+            console.log(data);
+            console.log("토큰:", token)
+          },
+          error: function () {
+            alert("유저 정보를 불러오는데 실패했습니다.");
+            location.href = "/login";
+          }
+        });
+      });
+    </script>
+  </th:block>
+</div>
+</html>
+

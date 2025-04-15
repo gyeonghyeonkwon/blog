@@ -24,4 +24,9 @@ public class MemberController {
   public String login() {
     return "domain/member/login";
   }
+
+  @GetMapping("/postMain")
+  public String postMain() {
+    return "domain/post/postMain";
+  }
 }

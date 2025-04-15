@@ -1,4 +1,4 @@
-package com.ll.blog.domain.global.security.util;
+package com.ll.blog.domain.global.security;
 
 import groovy.util.logging.Slf4j;
 import org.springframework.security.core.Authentication;

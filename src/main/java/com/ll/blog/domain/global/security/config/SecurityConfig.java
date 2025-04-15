@@ -30,7 +30,12 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-            .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+            .requestMatchers("/api/members/signIn",
+                "/api/members/signUp",
+                "/h2-console/**").permitAll()
+            .requestMatchers("/api/members/me").authenticated()
+            .anyRequest().permitAll()
+        )
 
         .csrf((csrf) -> csrf
             .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**"),
@@ -52,6 +57,7 @@ public class SecurityConfig {
         // before filter
         .addFilterBefore(new JwtFilter(jwtProvider),
             UsernamePasswordAuthenticationFilter.class)
+
         // exception handler
         .exceptionHandling(conf -> conf
             .authenticationEntryPoint(jwtAuthenticationEntryPoint)

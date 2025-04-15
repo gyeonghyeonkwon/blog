@@ -13,6 +13,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,5 +56,14 @@ public class ApiMemberController {
   public ResponseEntity reissue(@RequestBody TokenRequest tokenRequest) {
     return new ResponseEntity(ResponseData.res(200,
         "토큰재발급성공", memberService.reissue(tokenRequest)), HttpStatus.OK);
+  }
+
+  @GetMapping("/me")
+  public ResponseEntity getUserInfo(Authentication authentication) {
+    if (authentication == null) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않음");
+    }
+    String username = authentication.getName();
+    return new ResponseEntity(ResponseData.res(200, "조회성공", username), HttpStatus.OK);
   }
 }

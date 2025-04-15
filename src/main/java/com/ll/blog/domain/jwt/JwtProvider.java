@@ -3,6 +3,7 @@ package com.ll.blog.domain.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Jwts.SIG;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
@@ -48,15 +49,15 @@ public class JwtProvider {
     String accessToken = Jwts.builder()
         .subject(authentication.getName())
         .claim("auth", authorities)
-        .issuedAt(new Date(System.currentTimeMillis()))
+        .issuedAt(new Date(currentDate))
         .expiration(new Date(currentDate + ACCESS_TOKEN_EXPIRATION_TIME))
-        .signWith(this.key)
+        .signWith(this.key, SIG.HS256)
         .compact();
 
     // Refresh Token 생성
     String refreshToken = Jwts.builder()
         .expiration(new Date(currentDate + REFRESH_TOKEN_EXPIRATION_TIME))
-        .signWith(this.key)
+        .signWith(this.key, SIG.HS256)
         .compact();
 
     return Jwt.builder()
@@ -82,9 +83,8 @@ public class JwtProvider {
             .collect(Collectors.toList());
 
     // UserDetails 객체를 만들어서 Authentication 리턴
-    UserDetails principal = new User(claims.getSubject(), "", authorities);
-
-    return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+    UserDetails userDetails = new User(claims.getSubject(), "", authorities);
+    return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
   }
 
   public boolean isValidateToken(String token) {
