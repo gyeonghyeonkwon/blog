@@ -9,6 +9,7 @@ import com.ll.blog.domain.member.dto.MemberJoinRequest;
 import com.ll.blog.domain.member.dto.MemberJoinResponse;
 import com.ll.blog.domain.member.dto.TokenRequest;
 import com.ll.blog.domain.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,12 @@ public class ApiMemberController {
   public ResponseEntity login(@RequestBody @Valid LoginRequest loginRequest) {
     return new ResponseEntity(ResponseData.res(200, "로그인성공", memberService.login(loginRequest)),
         HttpStatus.OK);
+  }
+
+  @PostMapping("/logout")
+  public ResponseEntity logout(HttpServletRequest request) {
+    memberService.logout(request);
+    return new ResponseEntity(ResponseData.res(200, "로그아웃완료", ""), HttpStatus.OK);
   }
 
   @PostMapping("/reissue")

@@ -15,7 +15,7 @@
         const token = localStorage.getItem('token');
         if (!token) {
           alert("로그인 정보가 없습니다.");
-          location.href = "/login"; // 로그인 페이지로 리다이렉트
+          location.href = "/members/login"; // 로그인 페이지로 리다이렉트
           return;
         }
         $.ajax({
@@ -32,7 +32,7 @@
           },
           error: function () {
             alert("유저 정보를 불러오는데 실패했습니다.");
-            location.href = "/login";
+            location.href = "/members/login";
           }
         });
       });

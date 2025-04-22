@@ -10,6 +10,7 @@ import com.ll.blog.domain.member.dto.MemberJoinResponse;
 import com.ll.blog.domain.member.dto.TokenRequest;
 import com.ll.blog.domain.member.entity.Member;
 import com.ll.blog.domain.member.repository.MemberRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -64,16 +65,25 @@ public class MemberService {
         .authenticate(authenticationToken);
     // 3. 인증 정보를 기반으로 JWT 토큰 생성 (access + refresh token)
     Jwt jwt = jwtProvider.generateToken(authentication);
-
     //redis에 refreshToken저장
     redisService.setData(authentication.getName(), jwt.getRefreshToken());
-
     return jwt;
+  }
+
+  public void logout(HttpServletRequest request) {
+    String accessToken = getAccessToken(request);
+    if (!jwtProvider.isValidateToken(accessToken)) {
+      throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+    }
+    Authentication authentication = jwtProvider.getAuthentication(accessToken);
+    String username = authentication.getName();
+    long expireTime = jwtProvider.getRemainingExpiration(accessToken);
+    redisService.setDataExpire(accessToken, accessToken, expireTime); //black list
+    redisService.deleteData(username); //refreshToken 삭제
   }
 
   @Transactional
   public Jwt reissue(TokenRequest tokenRequest) {
-
     // 1. Refresh Token 검증
     if (!jwtProvider.isValidateToken(tokenRequest.getRefreshToken())) {
       throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
@@ -96,5 +106,13 @@ public class MemberService {
     // 6. 저장소 정보 업데이트
     redisService.setData(authentication.getName(), jwt.getRefreshToken());
     return jwt;
+  }
+
+  private String getAccessToken(HttpServletRequest request) {
+    String header = request.getHeader("Authorization");
+    if (header == null || !header.startsWith("Bearer ")) {
+      throw new IllegalArgumentException("AccessToken이 없습니다.");
+    }
+    return header.substring(7);
   }
 }

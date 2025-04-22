@@ -19,7 +19,7 @@ public class RedisService {
     ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
     return valueOperations.get(key);
   }
-  
+
   public void setData(String key, String value) {//지정된 키(key)에 값을 저장하는 메서드
     ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
     valueOperations.set(key, value);
@@ -34,5 +34,10 @@ public class RedisService {
 
   public void deleteData(String key) {//지정된 키(key)에 해당하는 데이터를 Redis에서 삭제하는 메서드
     redisTemplate.delete(key);
+  }
+
+  public boolean isBlackListed(String accessToken) {
+    String key = "access_token:blacklist:" + accessToken;
+    return redisTemplate.hasKey(key);
   }
 }

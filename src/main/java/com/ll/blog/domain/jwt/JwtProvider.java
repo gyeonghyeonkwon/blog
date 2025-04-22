@@ -106,6 +106,11 @@ public class JwtProvider {
     return false;
   }
 
+  public long getRemainingExpiration(String token) {
+    Date expiration = parseClaims(token).getExpiration(); //  토큰 만료 시각 가져오기
+    return expiration.getTime() - System.currentTimeMillis(); //  현재 시각과 차이 계산
+  }
+
   // accessToken
   private Claims parseClaims(String accessToken) {
     try {

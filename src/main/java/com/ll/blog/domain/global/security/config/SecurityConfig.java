@@ -25,6 +25,7 @@ public class SecurityConfig {
   private final JwtProvider jwtProvider;
   private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
   private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+  private final JwtFilter jwtFilter;
 
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -55,7 +56,7 @@ public class SecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 미사용
         )
         // before filter
-        .addFilterBefore(new JwtFilter(jwtProvider),
+        .addFilterBefore(jwtFilter,
             UsernamePasswordAuthenticationFilter.class)
 
         // exception handler
