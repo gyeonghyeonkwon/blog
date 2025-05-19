@@ -7,7 +7,7 @@
     <!--    <p>이름: <span id="name"></span></p>-->
     <!--    <p>권한: <span id="role"></span></p>-->
     <h2 id="welcome-msg">로딩 중...</h2>
-
+    <button id="logout-btn">로그아웃</button>
   </div>
   <th:block layout:fragment="script">
     <script th:inline="javascript">
@@ -21,7 +21,6 @@
         $.ajax({
           type: "GET",
           url: "/api/members/me",
-
           headers: {
             'Authorization': "Bearer " + token // "Bearer " 꼭 붙여야 함!
           },
@@ -33,6 +32,33 @@
           error: function () {
             alert("유저 정보를 불러오는데 실패했습니다.");
             location.href = "/members/login";
+          }
+        });
+      });
+
+      $('#logout-btn').on('click', function () {
+        // 로그아웃 여부를 묻는 확인 창
+        if (!confirm('로그아웃 하시겠습니까?')) {
+          return; // 취소하면 함수 종료
+        }
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert('로그인된 사용자가 아닙니다.');
+          return;
+        }
+        $.ajax({
+          url: '/api/members/logout',
+          type: 'POST',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+          },
+          success: function () {
+            alert('로그아웃 성공');
+            localStorage.removeItem('token');
+            location.href = "/members/login";
+          },
+          error: function (xhr) {
+            alert('로그아웃 실패: ' + xhr.responseText);
           }
         });
       });

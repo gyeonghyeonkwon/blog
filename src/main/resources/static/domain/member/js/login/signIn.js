@@ -31,7 +31,7 @@ $('#login-submit-btn').on('click', function () {
       location.href = '/members/postMain';
     },
     error: function (xhr) {
-      alert('로그인 실패: ' + xhr.responseText);
+      alert('아이디 및 패스워드가 일치하지 않습니다.');
     }
   });
 });

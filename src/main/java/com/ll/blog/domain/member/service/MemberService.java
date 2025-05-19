@@ -78,7 +78,7 @@ public class MemberService {
     Authentication authentication = jwtProvider.getAuthentication(accessToken);
     String username = authentication.getName();
     long expireTime = jwtProvider.getRemainingExpiration(accessToken);
-    redisService.setDataExpire(accessToken, accessToken, expireTime); //black list
+    redisService.setDataExpire(accessToken, accessToken, expireTime); //black list access token
     redisService.deleteData(username); //refreshToken 삭제
   }
 
