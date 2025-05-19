@@ -6,9 +6,22 @@ function getPassword() {
   return $('#password').val();
 };
 
+//로그인 버튼 클릭시
 $('#login-submit-btn').on('click', function () {
+  loginRequest();
+});
+
+//엔터키 누를시
+$('#loginForm').on('keypress', function () {
+  if (event.key === 'Enter' || event.keyCode === 13) {
+    loginRequest();
+  }
+});
+
+function loginRequest() {
   const loginId = getLoginId();
   const password = getPassword();
+
   if (!$('#loginForm').valid()) { //form 유효성검사
     return;
   }
@@ -34,4 +47,4 @@ $('#login-submit-btn').on('click', function () {
       alert('아이디 및 패스워드가 일치하지 않습니다.');
     }
   });
-});
+}
